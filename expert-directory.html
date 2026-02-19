@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expert Directory — The Sage Institute</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --steel:#6B8E9B;
+      --charcoal:#3B4856;
+      --mint:#8FBFB4;
+      --black:#0B0F13;
+      --gray-900:#1C2127;
+      --gray-800:#2A2F36;
+      --gray-700:#3D434A;
+      --gray-600:#5C6370;
+      --gray-500:#858B93;
+      --gray-400:#A3A8AF;
+      --gray-300:#C5C8CC;
+      --gray-200:#E2E4E7;
+      --gray-100:#F3F4F5;
+      --gray-50:#F9FAFB;
+      --white:#FFFFFF;
+      --radius:14px;
+      --radius-sm:8px;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.04);
+      --shadow:0 2px 8px rgba(0,0,0,.06);
+      --shadow-lg:0 8px 24px rgba(0,0,0,.08);
+      --transition:180ms cubic-bezier(.4,0,.2,1);
+      --sidebar-w:232px;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--white);color:var(--black);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+    /* ─ Header ─ */
+    .header{background:var(--charcoal);position:sticky;top:0;z-index:50}
+    .header-inner{max-width:1440px;margin:0 auto;padding:16px 40px;display:flex;align-items:center;justify-content:center}
+    .header-logo{height:52px;width:auto}
+
+    /* ─ Hero ─ */
+    .hero{background:var(--charcoal);padding:48px 40px 40px;text-align:center}
+    .hero h1{font-family:'Playfair Display',Georgia,serif;font-size:38px;font-weight:600;color:var(--white);letter-spacing:-.02em;margin-bottom:8px}
+    .hero h1 span{color:var(--mint)}
+    .hero p{color:var(--white);font-size:16px;max-width:520px;margin:0 auto 28px;font-weight:300;line-height:1.7}
+
+    /* ─ Spotlight Search ─ */
+    .spotlight{max-width:480px;margin:0 auto;position:relative}
+    .spotlight input{width:100%;padding:14px 22px 14px 48px;background:var(--white);border:none;border-radius:100px;color:var(--black);font-size:15px;font-family:inherit;outline:none;transition:all var(--transition);box-shadow:0 4px 20px rgba(0,0,0,.15)}
+    .spotlight input:focus{box-shadow:0 4px 24px rgba(0,0,0,.2)}
+    .spotlight input::placeholder{color:var(--gray-500);font-weight:400;transition:opacity .3s}
+    .spotlight svg{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none}
+    .spotlight-count{text-align:center;margin-top:12px;font-size:12px;color:rgba(255,255,255,.3);letter-spacing:.02em}
+    .country-ticker{width:100%;overflow:hidden;margin-top:24px;position:relative}
+    .country-ticker::before,.country-ticker::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:1;pointer-events:none}
+    .country-ticker::before{left:0;background:linear-gradient(90deg,var(--charcoal),transparent)}
+    .country-ticker::after{right:0;background:linear-gradient(-90deg,var(--charcoal),transparent)}
+    .country-ticker-track{display:flex;gap:12px;animation:ticker 30s linear infinite;width:max-content}
+    .country-ticker-track:hover{animation-play-state:paused}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .ticker-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;font-size:10px;font-weight:700;color:rgba(255,255,255,.6);cursor:pointer;transition:all var(--transition);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+    .ticker-pill:hover{background:rgba(255,255,255,.15);color:rgba(255,255,255,.9)}
+    .ticker-pill.active{background:var(--white);border-color:var(--white);color:var(--charcoal)}
+    .ticker-pill img{width:16px;height:11px;border-radius:2px;object-fit:cover}
+    .country-dropdown{position:absolute;top:100%;left:0;right:0;margin-top:8px;background:var(--white);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.2);max-height:280px;overflow-y:auto;z-index:10;display:none}
+    .country-dropdown.visible{display:block}
+    .country-dropdown-item{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:background var(--transition)}
+    .country-dropdown-item:hover{background:var(--gray-50)}
+    .country-dropdown-item.active{background:var(--gray-100)}
+    .country-dropdown-item img{width:24px;height:17px;border-radius:3px;object-fit:cover;border:0.5px solid var(--gray-200)}
+    .country-dropdown-item span{font-size:14px;font-weight:500;color:var(--charcoal)}
+
+    /* ─ Layout ─ */
+    .main{max-width:1440px;margin:0 auto;display:flex;min-height:calc(100vh - 200px)}
+
+    /* ─ Sidebar ─ */
+    .sidebar{width:280px;flex-shrink:0;padding:28px 24px 40px 40px;position:sticky;top:70px;height:fit-content;max-height:calc(100vh - 70px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gray-200) transparent}
+    .sidebar::-webkit-scrollbar{width:4px}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:4px}
+
+    .accordion{margin-bottom:24px;border-bottom:1px solid var(--gray-100);padding-bottom:20px}
+    .accordion:last-of-type{border-bottom:none}
+    .accordion-trigger{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;padding:0 0 12px;font-size:12px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.08em;cursor:pointer;font-family:inherit}
+    .accordion-trigger svg{transition:transform var(--transition);color:var(--gray-400);width:16px;height:16px}
+    .accordion-trigger[aria-expanded="false"] svg{transform:rotate(-90deg)}
+    .accordion-body{overflow:hidden;transition:max-height .25s ease}
+    .accordion-body.collapsed{max-height:0!important;overflow:hidden}
+    .filter-scroll{max-height:220px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gray-200) transparent;padding-right:4px}
+    .filter-scroll::-webkit-scrollbar{width:4px}
+    .filter-scroll::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:4px}
+
+    .filter-search{width:100%;padding:10px 14px;background:var(--gray-100);border:1px solid transparent;border-radius:8px;font-size:14px;font-family:inherit;color:var(--black);margin-bottom:12px;outline:none;transition:all var(--transition)}
+    .filter-search:focus{background:var(--white);border-color:var(--gray-300)}
+    .filter-search::placeholder{color:var(--gray-400)}
+
+    .filter-btn{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;text-align:left;padding:10px 12px;border-radius:8px;font-size:15px;font-weight:400;color:var(--gray-600);cursor:pointer;transition:all var(--transition);font-family:inherit}
+    .filter-btn:hover{background:var(--gray-100);color:var(--black)}
+    .filter-btn.active{background:var(--charcoal);color:var(--white);font-weight:500}
+    .filter-btn .check{width:18px;height:18px;border:2px solid var(--gray-300);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--transition)}
+    .filter-btn.active .check{background:var(--mint);border-color:var(--mint)}
+    .filter-btn.active .check::after{content:'';width:5px;height:9px;border:solid var(--charcoal);border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+    .filter-btn .label{flex:1}
+    .filter-btn .count{font-size:13px;color:var(--gray-400);font-weight:400}
+    .filter-btn.active .count{color:var(--steel)}
+    .filter-btn img.flag{width:22px;height:16px;border-radius:2px;object-fit:cover;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+
+    /* Country pill style */
+    .country-filters-grid{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
+    .country-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;background:var(--white);border:1px solid var(--gray-200);border-radius:100px;font-size:11px;font-weight:700;color:var(--gray-600);cursor:pointer;transition:all var(--transition);font-family:inherit;text-transform:uppercase;letter-spacing:.04em}
+    .country-pill:hover{border-color:var(--gray-300);background:var(--gray-50)}
+    .country-pill.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--white)}
+    .country-pill img{width:20px;height:14px;border-radius:2px;object-fit:cover;border:0.5px solid var(--gray-200)}
+    .country-pill.active img{border-color:rgba(255,255,255,.3)}
+
+    .sidebar-reset{display:none;margin-top:16px;background:var(--gray-100);border:none;border-radius:8px;padding:12px 16px;font-size:14px;font-weight:500;color:var(--gray-600);cursor:pointer;font-family:inherit;transition:all var(--transition);width:100%;text-align:center}
+    .sidebar-reset.visible{display:block}
+    .sidebar-reset:hover{background:var(--gray-200);color:var(--black)}
+
+    /* ─ Content ─ */
+    .content{flex:1;padding:24px 40px 80px 24px;min-width:0}
+    .active-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;min-height:0}
+    .active-filters:empty{display:none}
+    .active-filter{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--charcoal);color:var(--white);border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;transition:all var(--transition)}
+    .active-filter:hover{background:var(--black)}
+    .active-filter svg{width:14px;height:14px;opacity:.7}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+
+    /* ─ Card ─ */
+    .card{background:var(--white);padding:28px 24px;cursor:pointer;transition:all var(--transition);display:flex;flex-direction:column;align-items:flex-start;border-radius:var(--radius);border:1px solid var(--gray-200)}
+    .card:hover{background:var(--gray-100);border-color:var(--gray-300)}
+    .card-avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;margin-bottom:24px}
+    .card-body{width:100%;text-align:left}
+    .card-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:600;color:var(--black);line-height:1.25;margin-bottom:24px}
+    .card-designation{font-size:14px;color:var(--steel);font-weight:500;margin-bottom:0;letter-spacing:.01em;line-height:1.5}
+    .card-flags{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;width:100%;margin-bottom:24px}
+    .card-flag-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 7px;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;font-size:10px;font-weight:700;color:var(--gray-700);text-transform:uppercase;letter-spacing:.04em}
+    .card-flag-chip img{width:18px;height:13px;border-radius:2px;object-fit:cover;border:0.5px solid var(--gray-200)}
+    .card-bio{font-size:14px;color:var(--gray-600);line-height:1.65;margin-bottom:24px}
+    .card-meta{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .card-tag{font-size:13px;font-weight:500;color:var(--gray-500);background:var(--gray-100);padding:5px 12px;border-radius:100px}
+    .card:hover .card-tag{background:var(--gray-200)}
+    .card-socials{display:flex;gap:6px}
+    .card-socials a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;color:var(--gray-400);border:1px solid var(--gray-200);transition:all var(--transition)}
+    .card-socials a:hover{color:var(--charcoal);background:var(--gray-100);border-color:var(--gray-300)}
+    .card-socials svg{width:16px;height:16px}
+
+    .grid-divider{grid-column:1/-1;height:1px;background:var(--gray-100)}
+
+    /* ─ Modal ─ */
+    .overlay{position:fixed;inset:0;background:rgba(11,15,19,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;opacity:0;pointer-events:none;transition:opacity 200ms ease}
+    .overlay.visible{opacity:1;pointer-events:auto}
+    .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);z-index:101;width:90%;max-width:720px;max-height:85vh;background:var(--white);border-radius:20px;overflow:hidden;opacity:0;pointer-events:none;transition:opacity 200ms ease,transform 200ms ease;display:flex;flex-direction:column}
+    .modal.visible{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--gray-100)}
+    .modal-flags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .modal-flag-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;background:var(--white);border:1px solid var(--gray-200);border-radius:100px;font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.04em}
+    .modal-flag-chip img{width:20px;height:14px;border-radius:2px;object-fit:cover;border:0.5px solid var(--gray-200)}
+    .modal-close{background:var(--gray-100);border:none;color:var(--gray-400);width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+    .modal-close:hover{background:var(--gray-200);color:var(--black)}
+    .modal-close svg{width:18px;height:18px}
+    .modal-top{padding:28px 32px 24px;display:flex;gap:28px;align-items:flex-start;flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gray-200) transparent}
+    .modal-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:200px;position:sticky;top:0;align-self:flex-start}
+    .modal-avatar{width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:16px}
+    .modal-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:600;color:var(--black);line-height:1.25;margin-bottom:6px}
+    .modal-country{font-size:14px;color:var(--gray-500);margin-bottom:16px}
+    .modal-affiliations{display:flex;flex-direction:column;gap:12px;width:100%}
+    .modal-affiliation{display:flex;align-items:flex-start;gap:10px}
+    .modal-affiliation-icon{color:var(--gray-400);flex-shrink:0;margin-top:2px}
+    .modal-affiliation-icon svg{width:16px;height:16px}
+    .modal-affiliation-text{display:flex;flex-direction:column;gap:2px}
+    .modal-designation{color:var(--steel);font-size:13px;font-weight:500}
+    .modal-org{color:var(--gray-400);font-size:12px}
+    .modal-right{flex:1;padding-top:8px}
+    .modal-bio-text{font-size:15px;color:var(--gray-600);line-height:1.75}
+    .modal-body{padding:0 32px 24px;overflow-y:auto;flex:1;min-height:0;scrollbar-width:thin;scrollbar-color:var(--gray-200) transparent}
+    .modal-section{margin-bottom:24px}
+    .modal-section:last-child{margin-bottom:0}
+    .modal-section h3{font-size:11px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+    .modal-section p{font-size:15px;color:var(--gray-600);line-height:1.75}
+    .modal-tags{display:flex;flex-wrap:wrap;gap:8px}
+    .modal-tag{font-size:13px;padding:6px 14px;border-radius:100px;background:var(--gray-100);color:var(--gray-600);font-weight:500}
+    .modal-demographics{display:flex;flex-wrap:wrap;gap:12px}
+    .modal-demo-item{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--gray-50);border:1px solid var(--gray-100);border-radius:8px;font-size:13px;color:var(--gray-600)}
+    .modal-demo-item svg{width:16px;height:16px;color:var(--gray-400)}
+    .modal-demo-item .demo-label{color:var(--gray-400);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+    .modal-demo-item .demo-value{font-weight:500;color:var(--gray-700)}
+
+    /* ─ Modal Footer ─ */
+    .modal-footer{padding:20px 32px;border-top:1px solid var(--gray-200);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;flex-shrink:0}
+    .modal-footer-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--gray-50);color:var(--gray-500);text-decoration:none;transition:all var(--transition);cursor:pointer;border:none;font-family:inherit;position:relative}
+    .modal-footer-icon:hover{background:var(--gray-200);color:var(--charcoal)}
+    .modal-footer-icon svg{width:20px;height:20px}
+    .modal-footer-divider{width:1px;height:24px;background:var(--gray-200);margin:0 8px}
+    .modal-footer-icon[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--charcoal);color:var(--white);font-size:11px;font-weight:500;padding:6px 12px;border-radius:8px;white-space:nowrap;pointer-events:none;letter-spacing:.02em}
+
+    /* ─ Empty ─ */
+    .empty-state{text-align:center;padding:80px 20px;color:var(--gray-500);grid-column:1/-1}
+    .empty-state svg{margin-bottom:12px;color:var(--gray-300)}
+    .empty-state p{font-size:15px}
+    .empty-state span{font-size:13px;color:var(--gray-400);display:block;margin-top:4px}
+
+    /* ─ Responsive ─ */
+    @media(max-width:900px){
+      .main{flex-direction:column}
+      .sidebar{width:100%;position:static;max-height:none;padding:16px 20px 0;display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+      .accordion{margin-bottom:0;flex:1;min-width:140px}
+      .filter-scroll{max-height:160px}
+      .content{padding:16px 20px 60px}
+      .card-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:4px}
+      .card{padding:20px 16px}
+    }
+    @media(max-width:480px){
+      .hero{padding:32px 20px 28px}
+      .hero h1{font-size:26px}
+      .hero p{font-size:13px;margin-bottom:20px}
+      .spotlight input{padding:11px 16px 11px 40px;font-size:13px}
+      .header-inner{padding:12px 20px}
+      .header-logo{height:28px}
+      .modal{width:96%;border-radius:14px;max-height:90vh}
+      .modal-top{padding:28px 20px 16px}
+      .modal-avatar{width:72px;height:72px}
+      .modal-name{font-size:18px}
+      .modal-body{padding:0 20px 0}
+      .modal-footer{padding:12px 16px}
+      .card-avatar{width:46px;height:46px}
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <img src="Sage+White.webp" alt="The Sage Institute for Foreign Affairs" class="header-logo" />
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Expert <span>Communities</span></h1>
+    <p>We are dedicated to supporting and connecting international relations experts through visibility, recognition, and knowledge exchange.</p>
+    <div class="spotlight">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="Search by country..." autocomplete="off" />
+      <div class="country-dropdown" id="countryDropdown"></div>
+    </div>
+    <div class="spotlight-count" id="resultCount"></div>
+    <div class="country-ticker">
+      <div class="country-ticker-track" id="countryTicker"></div>
+    </div>
+  </section>
+
+  <div class="main">
+    <aside class="sidebar" id="sidebar">
+      <!-- Specialty Accordion -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="true" onclick="toggleAccordion(this)">
+          Specialty
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="filter-scroll" id="specialtyFilters"></div>
+        </div>
+      </div>
+      <!-- Region Accordion -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
+          Region
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body collapsed">
+          <div class="filter-scroll" id="regionFilters"></div>
+        </div>
+      </div>
+            <!-- Language Accordion -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
+          Language
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body collapsed">
+          <div class="filter-scroll" id="languageFilters"></div>
+        </div>
+      </div>
+      <!-- Age Accordion -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
+          Age
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body collapsed">
+          <div class="filter-scroll" id="ageFilters"></div>
+        </div>
+      </div>
+      <!-- Gender Accordion -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
+          Gender
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body collapsed">
+          <div class="filter-scroll" id="genderFilters"></div>
+        </div>
+      </div>
+      <!-- Background Accordion -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
+          Background
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body collapsed">
+          <div class="filter-scroll" id="nativeFilters"></div>
+        </div>
+      </div>
+      <button class="sidebar-reset" id="resetBtn" onclick="resetFilters()">Clear all filters</button>
+    </aside>
+
+    <main class="content">
+      <div class="active-filters" id="activeFilters"></div>
+      <div class="card-grid" id="cardGrid"></div>
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-flags" id="modalFlags"></div>
+      <button class="modal-close" id="modalClose"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+    <div class="modal-top">
+      <div class="modal-left">
+        <img class="modal-avatar" id="modalAvatar" src="" alt="" />
+        <div class="modal-name" id="modalName"></div>
+        <div class="modal-country" id="modalCountry"></div>
+        <div class="modal-affiliations" id="modalAffiliations"></div>
+      </div>
+      <div class="modal-right">
+        <p class="modal-bio-text" id="modalBio"></p>
+        <div class="modal-section" style="margin-top:20px"><h3>Areas of Expertise</h3><div class="modal-tags" id="modalTags"></div></div>
+        <div class="modal-section" style="margin-top:20px"><h3>Languages</h3><div class="modal-demographics" id="modalDemographics"></div></div>
+      </div>
+    </div>
+    <div class="modal-body">
+    </div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+
+<script>
+/* ═══ DATA — Real Foreign Policy Experts ═══ */
+const experts = [
+  { name:"Ian Bremmer", designation:"President & Founder", org:"Eurasia Group", affiliations:[{title:"President & Founder",org:"Eurasia Group"},{title:"President",org:"GZERO Media"},{title:"Professor",org:"Columbia University"}], bio:"Global political risk pioneer. Built the world's leading political risk firm. Author, professor, media presence.", specialty:"geopolitics", region:"north-america", languages:["English"], country:"us", age:"40-60", gender:"male", native:false, fullBio:"Ian Bremmer is the president and founder of Eurasia Group, the world's leading political risk research and consulting firm. He is also the president of GZERO Media. A prolific author, his books include 'Every Nation for Itself,' 'The J Curve,' and 'Us vs. Them.' He teaches at Columbia University and is widely recognized as a leading voice on global political risk, geopolitics, and US foreign policy.", tags:["Political Risk","Geopolitics","US Foreign Policy"], twitter:"ianbremmer", linkedin:"ianbremmer" },
+  { name:"Dr. Fiona Hill", designation:"Senior Fellow", org:"Brookings Institution", bio:"Russia & Europe expert. Former NSC Senior Director. Key impeachment witness. Author of 'There Is Nothing for You Here.'", specialty:"security", region:"europe", languages:["English","Russian"], country:"us", age:"40-60", gender:"female", native:false, fullBio:"Dr. Fiona Hill is a senior fellow at the Brookings Institution and one of the foremost American experts on Russia and European affairs. She served as Senior Director for European and Russian Affairs on the National Security Council under President Trump and gained national prominence as a witness during the first Trump impeachment hearings. She previously served at the National Intelligence Council.", tags:["Russia","European Security","US National Security"], twitter:"", linkedin:"faborhill" },
+  { name:"Fareed Zakaria", designation:"Host, Fareed Zakaria GPS", org:"CNN", affiliations:[{title:"Host, Fareed Zakaria GPS",org:"CNN"},{title:"Columnist",org:"Washington Post"}], bio:"Global affairs commentator. CNN host. Washington Post columnist. Author of 'The Post-American World.'", specialty:"geopolitics", region:"global", languages:["English","Hindi"], country:"us", age:"40-60", gender:"male", native:false, fullBio:"Fareed Zakaria is the host of CNN's Fareed Zakaria GPS and writes a column for The Washington Post. He is one of the most influential voices in American foreign policy commentary. His books, including 'The Post-American World' and 'The Future of Freedom,' have shaped debates about globalization, democracy, and the evolving international order. He holds a Ph.D. from Harvard University.", tags:["Global Affairs","American Foreign Policy","Globalization"], twitter:"FareedZakaria", linkedin:"fareedzakaria" },
+  { name:"Dr. Richard Haass", designation:"President Emeritus", org:"Council on Foreign Relations", bio:"Led CFR for two decades. Senior State Dept. advisor. Author of 'The World: A Brief Introduction.'", specialty:"diplomacy", region:"global", languages:["English"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Dr. Richard Haass is President Emeritus of the Council on Foreign Relations, where he served as president from 2003 to 2023, making him the longest-serving leader in the organization's history. He previously served as Director of Policy Planning at the State Department under Colin Powell and as a Middle East envoy. He is the author of numerous books on foreign policy and international relations.", tags:["US Foreign Policy","Diplomacy","Global Order"], twitter:"RichardHaworked", linkedin:"richardhaass" },
+  { name:"Anne-Marie Slaughter", designation:"CEO", org:"New America", bio:"International law scholar. Former State Dept. Director of Policy Planning. Advocate for networked governance.", specialty:"intl-law", region:"north-america", languages:["English","French"], country:"us", age:"over-60", gender:"female", native:true, fullBio:"Anne-Marie Slaughter is the CEO of New America, a think tank and civic enterprise. She served as Director of Policy Planning at the US State Department under Secretary Hillary Clinton. A professor of international affairs at Princeton for many years, she is known for her work on international law, liberal internationalism, and networked governance. Her writing on work-life balance sparked global conversations.", tags:["International Law","Governance","Foreign Policy"], twitter:"SlaughterAM", linkedin:"anne-marie-slaughter" },
+  { name:"Prof. Joseph Nye", designation:"University Distinguished Service Professor", org:"Harvard Kennedy School", bio:"Coined 'soft power.' Former Dean of Harvard Kennedy School. Pentagon and intelligence community veteran.", specialty:"geopolitics", region:"north-america", languages:["English"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Joseph Nye is University Distinguished Service Professor at Harvard Kennedy School. He coined the influential concept of 'soft power' and has shaped modern international relations theory. He served as Assistant Secretary of Defense for International Security Affairs, Chair of the National Intelligence Council, and Dean of the Kennedy School. He is the author of over a dozen books on power, leadership, and global affairs.", tags:["Soft Power","International Relations Theory","US Grand Strategy"], twitter:"Joe_Nye", linkedin:"joseph-nye" },
+  { name:"Prof. Francis Fukuyama", designation:"Olivier Nomellini Senior Fellow", org:"Stanford Freeman Spogli Institute", bio:"'End of History' author. Leading voice on political order, democracy, and state-building.", specialty:"geopolitics", region:"north-america", languages:["English","Japanese"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Francis Fukuyama is the Olivier Nomellini Senior Fellow at Stanford's Freeman Spogli Institute for International Studies. He is best known for his book 'The End of History and the Last Man,' one of the most debated works in modern political science. His subsequent books, including 'The Origins of Political Order' and 'Political Order and Political Decay,' have established him as a leading theorist of democracy and governance.", tags:["Political Order","Democracy","State-Building"], twitter:"FukuyamaFrancis", linkedin:"" },
+  { name:"Amb. Samantha Power", designation:"Administrator", org:"USAID", bio:"Former US Ambassador to the UN. Pulitzer Prize winner. Human rights advocate. Author of 'A Problem from Hell.'", specialty:"human-rights", region:"north-america", languages:["English"], country:"us", age:"40-60", gender:"female", native:true, fullBio:"Samantha Power serves as the Administrator of the United States Agency for International Development (USAID). She previously served as US Ambassador to the United Nations under President Obama. Her book 'A Problem from Hell: America and the Age of Genocide' won the Pulitzer Prize and established her as one of the most important voices on humanitarian intervention and human rights in foreign policy.", tags:["Human Rights","Humanitarian Intervention","Development"], twitter:"SamantherPower", linkedin:"samantha-power" },
+  { name:"Prof. Kishore Mahbubani", designation:"Distinguished Fellow", org:"Asia Research Institute, NUS", bio:"Singapore's foremost global intellectual. Former UN Ambassador. Champion of Asian perspectives in global governance.", specialty:"diplomacy", region:"asia-pacific", languages:["English","Malay"], country:"sg", age:"over-60", gender:"male", native:true, fullBio:"Kishore Mahbubani is a Distinguished Fellow at the Asia Research Institute at the National University of Singapore. He served as Singapore's Ambassador to the United Nations and as President of the UN Security Council. He is one of the most prominent Asian voices in global affairs, arguing for greater Asian representation in international institutions. His books include 'Has the West Lost It?' and 'The Great Convergence.'", tags:["Global Governance","Asian Century","UN Reform"], twitter:"mahaborni", linkedin:"kishore-mahbubani" },
+  { name:"Dr. Vali Nasr", designation:"Majid Khadduri Professor", org:"Johns Hopkins SAIS", bio:"Iran and Middle East authority. Former State Dept. Senior Advisor. Author of 'The Shia Revival.'", specialty:"middle-east", region:"middle-east", languages:["English","Farsi","Arabic"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Dr. Vali Nasr is the Majid Khadduri Professor of International Affairs at Johns Hopkins SAIS, where he previously served as Dean. He served as Senior Advisor to the US Special Representative for Afghanistan and Pakistan. A leading expert on Iran, Shia Islam, and Middle Eastern geopolitics, his books 'The Shia Revival' and 'The Dispensable Nation' have profoundly shaped Western understanding of the region.", tags:["Iran","Middle East Geopolitics","Shia Islam"], twitter:"vabornasr", linkedin:"vali-nasr" },
+  { name:"Dr. Ngozi Okonjo-Iweala", designation:"Director-General", org:"World Trade Organization", bio:"First African and first woman to lead the WTO. Former Nigerian Finance Minister. Development economics champion.", specialty:"economic", region:"africa", languages:["English","Igbo","French"], country:"ch", age:"over-60", gender:"female", native:true, fullBio:"Dr. Ngozi Okonjo-Iweala is the Director-General of the World Trade Organization, the first African and first woman to hold this position. She previously served twice as Nigeria's Finance Minister and briefly as Foreign Affairs Minister. She spent 25 years at the World Bank, rising to Managing Director. She is widely regarded as one of the most influential economists in global development and trade policy.", tags:["Global Trade","Development Economics","African Governance"], twitter:"NOIweala", linkedin:"ngozi-okonjo-iweala" },
+  { name:"Dr. Robert Kagan", designation:"Senior Fellow", org:"Brookings Institution", bio:"Neoconservative foreign policy thinker. Author of 'The Jungle Grows Back.' Debates the liberal order.", specialty:"geopolitics", region:"north-america", languages:["English"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Robert Kagan is a senior fellow at the Brookings Institution and one of the most influential American foreign policy thinkers. His books, including 'Of Paradise and Power' and 'The Jungle Grows Back,' have shaped debates about American power, the liberal international order, and the philosophical divide between US and European approaches to foreign policy. He co-founded the Project for the New American Century.", tags:["Liberal Order","American Power","Transatlantic Relations"], twitter:"", linkedin:"" },
+  { name:"Dr. Jessica Tuchman Mathews", designation:"Distinguished Fellow", org:"Carnegie Endowment for International Peace", bio:"Former Carnegie president. National Security Council veteran. Pioneer of non-traditional security thinking.", specialty:"security", region:"north-america", languages:["English"], country:"us", age:"over-60", gender:"female", native:true, fullBio:"Jessica Tuchman Mathews is a Distinguished Fellow at the Carnegie Endowment for International Peace, where she served as president from 1997 to 2015. She previously served on the National Security Council staff and at the World Resources Institute. Her influential 1989 essay 'Redefining Security' helped expand the concept of national security to include environmental and non-traditional threats.", tags:["Non-Traditional Security","Governance","Nuclear Policy"], twitter:"", linkedin:"" },
+  { name:"Robin Wright", designation:"Contributing Writer", org:"The New Yorker", affiliations:[{title:"Contributing Writer",org:"The New Yorker"},{title:"Fellow",org:"Wilson Center"},{title:"Fellow",org:"US Institute of Peace"}], bio:"Covered the Middle East for 40+ years. Author of five books. Leading voice on Iran and political Islam.", specialty:"middle-east", region:"middle-east", languages:["English","Arabic"], country:"us", age:"over-60", gender:"female", native:false, fullBio:"Robin Wright is a contributing writer for The New Yorker and a fellow at the Woodrow Wilson International Center for Scholars and the US Institute of Peace. She has reported from over 140 countries and covered every major conflict in the Middle East for over four decades. Her books, including 'Dreams and Shadows' and 'Rock the Casbah,' provide authoritative accounts of political transformation in the Muslim world.", tags:["Iran","Political Islam","Middle East Conflict"], twitter:"waborght", linkedin:"robin-wright" },
+  { name:"Dr. Brahma Chellaney", designation:"Professor of Strategic Studies", org:"Centre for Policy Research, New Delhi", bio:"India's leading strategic thinker. Water wars, Indo-Pacific, China's rise. Bold and contrarian.", specialty:"security", region:"asia-pacific", languages:["English","Hindi"], country:"in", age:"over-60", gender:"male", native:true, fullBio:"Dr. Brahma Chellaney is Professor of Strategic Studies at the Centre for Policy Research in New Delhi and one of India's most prominent strategic thinkers. He was an advisor to India's National Security Council and is known for his work on water geopolitics, Asian security, and China's strategic expansion. His book 'Water: Asia's New Battleground' warned about water scarcity as a driver of geopolitical conflict.", tags:["Indo-Pacific","Water Geopolitics","China"], twitter:"Aborhellaney", linkedin:"brahma-chellaney" },
+  { name:"Dr. Nathalie Tocci", designation:"Director", org:"Istituto Affari Internazionali", bio:"EU foreign policy strategist. Former advisor to EU High Representative. Rome-based. European sovereignty advocate.", specialty:"diplomacy", region:"europe", languages:["English","Italian","French"], country:"it", age:"40-60", gender:"female", native:true, fullBio:"Dr. Nathalie Tocci is the Director of the Istituto Affari Internazionali (IAI) in Rome, Italy's leading foreign policy think tank. She served as Special Advisor to EU High Representative Federica Mogherini and was the principal drafter of the EU Global Strategy on Foreign and Security Policy. She is one of Europe's most influential voices on EU foreign policy, European sovereignty, and the transatlantic relationship.", tags:["EU Foreign Policy","European Security","Transatlantic Relations"], twitter:"NathalieTocci", linkedin:"nathalie-tocci" },
+  { name:"Dr. Comfort Ero", designation:"President & CEO", org:"International Crisis Group", bio:"Leading the world's foremost conflict prevention organization. Expert on West Africa and peacekeeping.", specialty:"human-rights", region:"africa", languages:["English","French","Yoruba"], country:"be", age:"40-60", gender:"female", native:true, fullBio:"Dr. Comfort Ero is the President and CEO of the International Crisis Group, the world's leading independent organization working to prevent wars and shape policies to build a more peaceful world. She is the first African and first woman to lead the organization. Previously she served as Crisis Group's Africa Program Director and has extensive expertise in conflict prevention, peacekeeping, and West African politics.", tags:["Conflict Prevention","Peacekeeping","West Africa"], twitter:"ComfortEro", linkedin:"comfort-ero" },
+  { name:"Prof. G. John Ikenberry", designation:"Albert G. Milbank Professor", org:"Princeton University", bio:"Theorist of the liberal international order. Shaped debate on multilateralism and American grand strategy.", specialty:"geopolitics", region:"north-america", languages:["English"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"G. John Ikenberry is the Albert G. Milbank Professor of Politics and International Affairs at Princeton University. He is one of the most influential theorists of the liberal international order, arguing that the US-led institutional framework created after World War II remains essential for global stability. His book 'A World Safe for Democracy' and 'Liberal Leviathan' are foundational texts in the field.", tags:["Liberal Order","Multilateralism","Grand Strategy"], twitter:"", linkedin:"g-john-ikenberry" },
+  { name:"Dr. Dalia Dassa Kaye", designation:"Senior Fellow", org:"UCLA Burkle Center", bio:"Middle East security and diplomacy. Former RAND analyst. Expert on Iran and Arab-Israeli normalization.", specialty:"middle-east", region:"middle-east", languages:["English","Hebrew","Arabic"], country:"us", age:"40-60", gender:"female", native:false, fullBio:"Dr. Dalia Dassa Kaye is a Senior Fellow at the UCLA Burkle Center for International Relations. She previously spent two decades at the RAND Corporation where she directed the Center for Middle East Public Policy. Her research focuses on Middle East security, Iran, and Arab-Israeli normalization. She has advised US government agencies on Middle East policy and regional security dynamics.", tags:["Middle East Security","Iran","Arab-Israeli Relations"], twitter:"DaliaWorkedKaye", linkedin:"dalia-dassa-kaye" },
+  { name:"Prof. Amitav Acharya", designation:"Distinguished Professor", org:"American University, School of International Service", bio:"Leading voice from the Global South on world order. ASEAN expert. UNESCO Chair in Transnational Challenges.", specialty:"diplomacy", region:"asia-pacific", languages:["English","Bengali","Hindi"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Amitav Acharya is the UNESCO Chair in Transnational Challenges and Governance and Distinguished Professor at American University in Washington, DC. Born in India, he is one of the most cited scholars of international relations from the Global South. His work challenges Western-centric narratives in IR theory and has been instrumental in developing the concept of a 'multiplex world' and regional order in Southeast Asia.", tags:["Global South Perspectives","ASEAN","World Order"], twitter:"amitavaborharya", linkedin:"amitav-acharya" },
+  { name:"Dr. Rosa Brooks", designation:"Scott K. Ginsburg Professor of Law", org:"Georgetown University Law Center", bio:"Civil-military relations. Former Pentagon senior advisor. Author of 'How Everything Became War.'", specialty:"security", region:"north-america", languages:["English"], country:"us", age:"40-60", gender:"female", native:true, fullBio:"Dr. Rosa Brooks is the Scott K. Ginsburg Professor of Law at Georgetown University Law Center and founder of Georgetown's Innovative Policing Program. She served as Counselor to the Under Secretary of Defense for Policy at the Pentagon. Her influential book 'How Everything Became War and the Military Became Everything' examines the blurring boundaries between war and peace in modern conflict.", tags:["Civil-Military Relations","Defense Policy","Law of War"], twitter:"raborabrooks", linkedin:"rosa-brooks" },
+  { name:"Dr. Shivshankar Menon", designation:"Visiting Professor", org:"Ashoka University", bio:"Former Indian National Security Advisor. Architect of India's foreign policy pivot. Author of 'India and Asian Geopolitics.'", specialty:"geopolitics", region:"asia-pacific", languages:["English","Hindi","Mandarin"], country:"in", age:"over-60", gender:"male", native:true, fullBio:"Shivshankar Menon served as India's National Security Advisor and earlier as Foreign Secretary of India. He was a key architect of India's strategic partnerships and the Indo-US civilian nuclear agreement. His book 'India and Asian Geopolitics: The Past, Present' is considered one of the most authoritative accounts of India's foreign policy evolution and Asia's changing strategic landscape.", tags:["Indian Foreign Policy","Asian Geopolitics","Nuclear Policy"], twitter:"", linkedin:"shivshankar-menon" },
+  { name:"Dr. Karen E. Smith", designation:"Professor of International Relations", org:"London School of Economics", bio:"EU foreign policy authority. Expert on European sanctions, human rights, and the EU's global role.", specialty:"intl-law", region:"europe", languages:["English","Italian"], country:"gb", age:"40-60", gender:"female", native:true, fullBio:"Dr. Karen E. Smith is Professor of International Relations at the London School of Economics and Political Science (LSE). She is one of the leading scholars of the European Union's foreign and security policy, with particular expertise in EU sanctions policy, human rights promotion, and the EU's role as a global actor. Her books include 'European Union Foreign Policy in a Changing World.'", tags:["EU Foreign Policy","Sanctions","Human Rights"], twitter:"", linkedin:"karen-e-smith" },
+  { name:"Dr. Moises Naim", designation:"Distinguished Fellow", org:"Carnegie Endowment for International Peace", bio:"Former Venezuelan Trade Minister. Author of 'The End of Power.' Analyst of global power shifts and corruption.", specialty:"economic", region:"americas", languages:["English","Spanish","Portuguese"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Dr. Moises Naim is a Distinguished Fellow at the Carnegie Endowment for International Peace. He served as Venezuela's Minister of Trade and Industry and as Executive Director of the World Bank. He is the author of several influential books including 'The End of Power,' recommended by Mark Zuckerberg, and 'Illicit,' which examines the global shadow economy. He was editor-in-chief of Foreign Policy magazine.", tags:["Power Dynamics","Illicit Trade","Latin American Politics"], twitter:"maboresnaim", linkedin:"moises-naim" },
+  { name:"Dr. Hina Rabbani Khar", designation:"Former Foreign Minister", org:"Government of Pakistan", bio:"Pakistan's youngest and first woman foreign minister. Advocate for South Asian diplomacy and regional connectivity.", specialty:"diplomacy", region:"asia-pacific", languages:["English","Urdu","Punjabi"], country:"pk", age:"under-40", gender:"female", native:true, fullBio:"Dr. Hina Rabbani Khar served as Pakistan's Foreign Minister from 2011 to 2013, becoming both the youngest person and the first woman to hold the position. She also served as Minister of State for Finance and as a member of the National Assembly. She is a prominent voice on Pakistan's foreign relations, South Asian diplomacy, and women in political leadership in the Muslim world.", tags:["Pakistan Foreign Policy","South Asian Diplomacy","Women in Leadership"], twitter:"", linkedin:"" },
+  { name:"Dr. Thomas Wright", designation:"Senior Director, Center on the US and Europe", org:"Brookings Institution", bio:"Transatlantic relations. Great power competition. Author of 'All Measures Short of War.'", specialty:"geopolitics", region:"europe", languages:["English"], country:"us", age:"40-60", gender:"male", native:true, fullBio:"Dr. Thomas Wright is the Senior Director of the Center on the United States and Europe at the Brookings Institution. He is one of the leading analysts of the evolving transatlantic relationship and great power competition. His book 'All Measures Short of War' examines how great powers compete while avoiding direct conflict. He has advised policymakers on both sides of the Atlantic.", tags:["Transatlantic Relations","Great Power Competition","Liberal Order"], twitter:"thomaborwright", linkedin:"thomas-wright" },
+  { name:"Dr. Rym Ayadi", designation:"President", org:"Euro-Mediterranean Economists Association", bio:"Euro-Mediterranean economic policy. Financial regulation. Bridging European and MENA economic research.", specialty:"economic", region:"europe", languages:["English","French","Arabic","Italian"], country:"gb", age:"40-60", gender:"female", native:true, fullBio:"Dr. Rym Ayadi is the President and Founder of the Euro-Mediterranean Economists Association (EMEA) and a professor at the City University of London. She is a leading expert on Euro-Mediterranean economic integration, financial sector regulation, and sustainable development in the MENA region. Her work bridges European and Arab economic policy research and she advises multiple international organizations.", tags:["Euro-Mediterranean Economics","Financial Regulation","MENA Development"], twitter:"", linkedin:"rym-ayadi" },
+  { name:"Dr. Michael J. Green", designation:"CEO", org:"United States Institute of Peace", bio:"Former NSC Asia Director. Japan and Indo-Pacific strategy architect. Leading voice on US Asia policy.", specialty:"security", region:"asia-pacific", languages:["English","Japanese"], country:"us", age:"40-60", gender:"male", native:false, fullBio:"Dr. Michael J. Green is the CEO of the United States Institute of Peace. He previously served as Senior Vice President for Asia and Japan Chair at the Center for Strategic and International Studies (CSIS) and as Senior Director for Asian Affairs on the National Security Council. He is one of the foremost architects of US Indo-Pacific strategy and US-Japan alliance policy.", tags:["Indo-Pacific Strategy","US-Japan Alliance","Asian Security"], twitter:"DrMaborhaelGreen", linkedin:"michael-j-green" },
+  { name:"Dr. Minxin Pei", designation:"Tom and Margot Pritzker '72 Professor", org:"Claremont McKenna College", bio:"Leading Western scholar of Chinese politics. Expert on corruption, governance, and the CCP's vulnerabilities.", specialty:"geopolitics", region:"asia-pacific", languages:["English","Mandarin"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Dr. Minxin Pei is the Tom and Margot Pritzker '72 Professor of Government at Claremont McKenna College. He is one of the leading Western scholars of Chinese governance and the Chinese Communist Party. His book 'China's Crony Capitalism' exposed the deep links between political power and wealth in China. His analysis of CCP governance, corruption, and regime vulnerabilities is widely cited by policymakers and media.", tags:["Chinese Politics","CCP Governance","Authoritarianism"], twitter:"MinxinPei", linkedin:"" },
+  { name:"Dr. Alina Polyakova", designation:"President & CEO", org:"Center for European Policy Analysis", bio:"Russia, disinformation, and European democratic resilience. Building transatlantic defenses against authoritarianism.", specialty:"security", region:"europe", languages:["English","Russian","Ukrainian"], country:"us", age:"40-60", gender:"female", native:true, fullBio:"Dr. Alina Polyakova is the President and CEO of the Center for European Policy Analysis (CEPA). She previously held positions at the Brookings Institution and the Atlantic Council. Born in Ukraine, she is a leading expert on Russian foreign policy, disinformation operations, and the challenge of authoritarian influence on European democracies. She advises US and European policymakers on transatlantic security.", tags:["Russian Influence","Disinformation","European Resilience"], twitter:"AlinaPolyakova", linkedin:"alina-polyakova" },
+  { name:"Dr. Shibley Telhami", designation:"Anwar Sadat Professor for Peace and Development", org:"University of Maryland", bio:"Arab-Israeli conflict. Arab public opinion. Bridging scholarship and policy on the Middle East.", specialty:"middle-east", region:"middle-east", languages:["English","Arabic","Hebrew"], country:"us", age:"over-60", gender:"male", native:true, fullBio:"Dr. Shibley Telhami holds the Anwar Sadat Chair for Peace and Development at the University of Maryland and is a nonresident senior fellow at Brookings. He is one of the most respected scholars of Middle Eastern politics, particularly the Arab-Israeli conflict and Arab public opinion. His annual polls of Arab public opinion have become essential data sources for understanding the region's political dynamics.", tags:["Arab-Israeli Conflict","Arab Public Opinion","Middle East Policy"], twitter:"ShibleyTelhami", linkedin:"shibley-telhami" },
+  { name:"Dr. Ngaire Woods", designation:"Dean, Blavatnik School of Government", org:"University of Oxford", bio:"Global governance reformer. International economic institutions. Making global institutions work for developing countries.", specialty:"economic", region:"europe", languages:["English"], country:"gb", age:"over-60", gender:"female", native:false, fullBio:"Dr. Ngaire Woods is the Dean of the Blavatnik School of Government at the University of Oxford and the founding Dean. She is a leading scholar of global governance and international economic institutions. Her research examines how the IMF, World Bank, and other multilateral institutions can better serve developing countries. She has advised numerous governments and international organizations on governance reform.", tags:["Global Governance","International Institutions","Development"], twitter:"NgaireWoods", linkedin:"ngaire-woods" },
+  { name:"Dr. Victor Cha", designation:"Senior Vice President for Asia & Korea Chair", org:"Center for Strategic and International Studies", bio:"North Korea and Korean Peninsula authority. Former NSC Asia Director. Georgetown professor.", specialty:"security", region:"asia-pacific", languages:["English","Korean"], country:"us", age:"40-60", gender:"male", native:true, fullBio:"Dr. Victor Cha is Senior Vice President for Asia and the Korea Chair at the Center for Strategic and International Studies (CSIS) and professor at Georgetown University. He served as Director for Asian Affairs on the National Security Council under President George W. Bush. He is one of the foremost experts on North Korea, the US-ROK alliance, and Korean Peninsula security dynamics.", tags:["North Korea","Korean Peninsula","US-Asia Alliances"], twitter:"VaborGU", linkedin:"victor-cha" },
+  { name:"Dr. Daniela Schwarzer", designation:"Member of the Executive Board", org:"Bertelsmann Stiftung", bio:"EU integration and Eurozone governance expert. Former Director of DGAP. Shaping Germany's European policy debate.", specialty:"economic", region:"europe", languages:["English","German","French"], country:"de", age:"40-60", gender:"female", native:true, fullBio:"Dr. Daniela Schwarzer is a member of the Executive Board at the Bertelsmann Stiftung and previously served as Executive Director of the Open Society Foundations Europe and Eurasia program and as Director of the German Council on Foreign Relations (DGAP). She is one of Germany's leading voices on EU integration, Eurozone governance, and Franco-German relations within the European project.", tags:["EU Integration","Eurozone","Franco-German Relations"], twitter:"D_Schwarzer", linkedin:"daniela-schwarzer" },
+  { name:"Dr. Sanam Vakil", designation:"Director, Middle East and North Africa Programme", org:"Chatham House", bio:"Iran expert. Regional order. Leading Chatham House's Middle East program. London-based analyst.", specialty:"middle-east", region:"middle-east", languages:["English","Farsi","French"], country:"gb", age:"40-60", gender:"female", native:true, fullBio:"Dr. Sanam Vakil is the Director of the Middle East and North Africa Programme at Chatham House (the Royal Institute of International Affairs) in London. She is one of the leading analysts of Iranian politics and the evolving Middle Eastern regional order. Her research spans Iran's foreign policy, Gulf security dynamics, and the transformation of the Middle East's strategic landscape.", tags:["Iran","Gulf Security","Middle East Order"], twitter:"SanamVakil", linkedin:"sanam-vakil" },
+  { name:"Dr. Matias Spektor", designation:"Professor of International Relations", org:"Fundação Getulio Vargas, São Paulo", bio:"Brazil's foreign policy voice. Latin American geopolitics. Global South perspectives on world order.", specialty:"diplomacy", region:"americas", languages:["English","Portuguese","Spanish"], country:"br", age:"40-60", gender:"male", native:true, fullBio:"Dr. Matias Spektor is Professor of International Relations at Fundação Getulio Vargas (FGV) in São Paulo, Brazil, and a nonresident fellow at the Council on Foreign Relations. He is one of Latin America's most prominent international relations scholars, specializing in Brazilian foreign policy, Latin American geopolitics, and the role of middle powers in global governance. He writes for Foreign Affairs and other major publications.", tags:["Brazilian Foreign Policy","Latin American Geopolitics","Middle Powers"], twitter:"MatiasSpektor", linkedin:"matias-spektor" },
+  { name:"Dr. Rana Mitter", designation:"S.T. Lee Professor of US-Asia Relations", org:"Harvard Kennedy School", bio:"Modern China historian. World War II in Asia. Chinese politics through a deep historical lens.", specialty:"geopolitics", region:"asia-pacific", languages:["English","Mandarin"], country:"us", age:"40-60", gender:"male", native:false, fullBio:"Dr. Rana Mitter is the S.T. Lee Professor of US-Asia Relations at Harvard Kennedy School. He was previously Professor of the History and Politics of Modern China at the University of Oxford. His books, including 'China's Good War' and 'Forgotten Ally: China's World War II,' provide essential historical context for understanding contemporary Chinese politics and identity.", tags:["Chinese History","US-China Relations","Asian Politics"], twitter:"ranamaborter", linkedin:"rana-mitter" },
+  { name:"Dr. Landry Signé", designation:"Senior Fellow", org:"Brookings Institution / Thunderbird School", bio:"Africa's economic transformation. Fourth Industrial Revolution on the continent. Young African thought leader.", specialty:"economic", region:"africa", languages:["English","French"], country:"us", age:"under-40", gender:"male", native:true, fullBio:"Dr. Landry Signé is a Senior Fellow at the Brookings Institution and a Distinguished Fellow and Professor at the Thunderbird School of Global Management at Arizona State University. He is one of the leading scholars of Africa's economic transformation, focusing on the Fourth Industrial Revolution, innovation, and continental integration. He is the author of 'Africa's Fourth Industrial Revolution' and advises the African Union.", tags:["African Economy","Innovation","Continental Integration"], twitter:"LandrySigne", linkedin:"landrysigne" },
+  { name:"Dr. Kori Schake", designation:"Director of Foreign & Defense Policy", org:"American Enterprise Institute", bio:"Defense strategy and alliance management. Former NSC and State Dept. official. Sharp, influential voice.", specialty:"security", region:"north-america", languages:["English"], country:"us", age:"over-60", gender:"female", native:true, fullBio:"Dr. Kori Schake is the director of foreign and defense policy studies at the American Enterprise Institute. She served on the National Security Council staff and in the State Department's Policy Planning Staff. She is a leading voice on defense strategy, alliance management, and American grand strategy, known for her sharp analytical writing and bipartisan policy influence.", tags:["Defense Strategy","Alliance Management","Grand Strategy"], twitter:"KoriSchake", linkedin:"kori-schake" },
+  { name:"Dr. Yuen Yuen Ang", designation:"Professor of Political Science", org:"Johns Hopkins University", bio:"Decoding China's political economy. Author of 'China's Gilded Age.' Corruption and development nexus.", specialty:"economic", region:"asia-pacific", languages:["English","Mandarin"], country:"us", age:"40-60", gender:"female", native:true, fullBio:"Dr. Yuen Yuen Ang is a professor of political science at Johns Hopkins University. She is a leading scholar of China's political economy, known for her innovative research on how corruption and governance shape economic development. Her books 'China's Gilded Age' and 'How China Escaped the Poverty Trap' have transformed understanding of Chinese development and the relationship between corruption and growth.", tags:["Chinese Political Economy","Corruption","Development"], twitter:"yuaborenang", linkedin:"yuen-yuen-ang" },
+  { name:"Dr. Gideon Rachman", designation:"Chief Foreign Affairs Commentator", org:"Financial Times", bio:"Global power shifts. Rise of strongman politics. FT's chief global affairs voice. Author and columnist.", specialty:"geopolitics", region:"europe", languages:["English"], country:"gb", age:"over-60", gender:"male", native:true, fullBio:"Gideon Rachman is the Chief Foreign Affairs Commentator of the Financial Times and one of the most widely read analysts of international affairs. His books 'Easternisation' and 'The Age of the Strongman' have shaped debate about shifting global power dynamics and the rise of authoritarian leaders. He won the Orwell Prize for political writing and is a regular speaker at major international forums.", tags:["Global Power Shifts","Authoritarianism","Political Commentary"], twitter:"GideonRachman", linkedin:"gideon-rachman" },
+  { name:"Dr. Mira Rapp-Hooper", designation:"Senior Director for East Asia and Oceania", org:"National Security Council", bio:"Alliance systems expert. Indo-Pacific strategy. From academia to the Situation Room.", specialty:"security", region:"asia-pacific", languages:["English"], country:"us", age:"40-60", gender:"female", native:true, fullBio:"Dr. Mira Rapp-Hooper has served as Senior Director for East Asia and Oceania on the National Security Council. Previously she was a Senior Fellow at the Council on Foreign Relations and at Yale Law School's Paul Tsai China Center. Her research on alliance systems, deterrence, and Indo-Pacific strategy has shaped US policy discussions. She is the author of 'Shields of the Republic: The Triumph and Peril of America's Alliances.'", tags:["Alliance Systems","Indo-Pacific","Deterrence"], twitter:"", linkedin:"mira-rapp-hooper" },
+  { name:"Dr. Arundhati Ghose", designation:"Former Ambassador to the UN", org:"Independent Analyst", bio:"India's legendary UN diplomat. Said 'no' to the CTBT. Voice of Global South sovereignty at the UN.", specialty:"diplomacy", region:"asia-pacific", languages:["English","Hindi","French"], country:"in", age:"over-60", gender:"female", native:true, fullBio:"Ambassador Arundhati Ghose is one of India's most distinguished diplomats, best known for representing India at the Conference on Disarmament and making India's case against the Comprehensive Test Ban Treaty (CTBT). Her firm stance at the UN became a defining moment in Indian diplomatic history. She has served as Ambassador to multiple countries and remains an influential voice on disarmament, sovereignty, and Global South perspectives.", tags:["Disarmament","Indian Diplomacy","Global South"], twitter:"", linkedin:"" },
+  { name:"Dr. Mark Leonard", designation:"Director & Co-Founder", org:"European Council on Foreign Relations", bio:"Built Europe's first pan-European think tank. Author of 'The Age of Unpeace.' European strategic autonomy.", specialty:"geopolitics", region:"europe", languages:["English","German","French"], country:"gb", age:"40-60", gender:"male", native:true, fullBio:"Dr. Mark Leonard is the Director and Co-Founder of the European Council on Foreign Relations (ECFR), which he established in 2007 as the first pan-European think tank. His book 'The Age of Unpeace' examines how connectivity has become a weapon in international relations. He is one of Europe's most influential foreign policy thinkers, focusing on EU strategic autonomy, China, and the geopolitics of technology.", tags:["European Strategy","Connectivity","Geopolitics of Tech"], twitter:"markaborleonard", linkedin:"mark-leonard" },
+  { name:"Dr. Funmi Olonisakin", designation:"Professor of Security, Leadership and Development", org:"King's College London", bio:"African security transformation. Leadership and conflict in the Global South. Gender and peacebuilding.", specialty:"human-rights", region:"africa", languages:["English","Yoruba","French"], country:"gb", age:"over-60", gender:"female", native:true, fullBio:"Professor Funmi Olonisakin is the founding Vice-President and Vice-Principal International at King's College London and the founding Director of the African Leadership Centre. She is a leading scholar on security sector transformation in Africa, the role of leadership in conflict and peace, and gender and peacebuilding. She has advised the United Nations, African Union, and multiple governments on security and governance.", tags:["African Security","Leadership","Gender & Peace"], twitter:"", linkedin:"funmi-olonisakin" },
+  { name:"Dr. Emile Hokayem", designation:"Senior Fellow for Middle East Security", org:"International Institute for Strategic Studies", bio:"Syria, Lebanon, and Gulf security analyst at IISS. Author of 'Syria's Uprising.' Sharp regional insights.", specialty:"middle-east", region:"middle-east", languages:["English","Arabic","French"], country:"gb", age:"40-60", gender:"male", native:true, fullBio:"Dr. Emile Hokayem is a Senior Fellow for Middle East Security at the International Institute for Strategic Studies (IISS). He is one of the leading analysts of conflict and security dynamics in the Levant and Gulf region. His book 'Syria's Uprising and the Fracturing of the Levant' provided one of the earliest comprehensive analyses of the Syrian conflict. He regularly briefs governments and media on Middle East security.", tags:["Syria","Gulf Security","Levantine Politics"], twitter:"emaborlhokayem", linkedin:"emile-hokayem" },
+  { name:"Dr. Bonnie Glaser", designation:"Managing Director, Indo-Pacific Program", org:"German Marshall Fund", bio:"US-China-Taiwan triangle. 30+ years tracking cross-strait dynamics. Trusted voice in Washington and Taipei.", specialty:"security", region:"asia-pacific", languages:["English","Mandarin"], country:"us", age:"over-60", gender:"female", native:false, fullBio:"Dr. Bonnie Glaser is the Managing Director of the Indo-Pacific Program at the German Marshall Fund of the United States. She is one of the most respected analysts of US-China relations and cross-strait dynamics, with over three decades of experience. She previously directed the China Power Project at CSIS. Her assessments of Taiwan Strait tensions and US-China strategic competition are essential reading for policymakers.", tags:["US-China Relations","Taiwan","Cross-Strait Dynamics"], twitter:"BonaborGlaser", linkedin:"bonnie-glaser" },
+  { name:"Dr. Ibrahim Kalin", designation:"Former Presidential Spokesperson & Advisor", org:"Republic of Turkey", bio:"Turkey's foreign policy architect. Scholar of Islamic thought. Former chief advisor to President Erdogan.", specialty:"diplomacy", region:"middle-east", languages:["English","Turkish","Arabic"], country:"tr", age:"40-60", gender:"male", native:true, fullBio:"Dr. Ibrahim Kalin served as the Presidential Spokesperson and Chief Advisor to President Erdogan and briefly as the head of Turkey's National Intelligence Organization (MIT). He is a scholar of Islamic thought and philosophy, holding a PhD from George Washington University. He played a key role in shaping Turkey's foreign policy and served as a mediator in international negotiations including the Black Sea Grain Initiative.", tags:["Turkish Foreign Policy","Mediation","Islamic Thought"], twitter:"aborkalin", linkedin:"" },
+  { name:"Dr. Rachel Kleinfeld", designation:"Senior Fellow", org:"Carnegie Endowment for International Peace", bio:"Political violence in democracies. Rule of law. Author of 'A Savage Order.' Democracy under threat from within.", specialty:"human-rights", region:"north-america", languages:["English"], country:"us", age:"40-60", gender:"female", native:true, fullBio:"Dr. Rachel Kleinfeld is a Senior Fellow at the Carnegie Endowment for International Peace, where she focuses on political violence, democratic resilience, and the rule of law. Her book 'A Savage Order: How the World's Deadliest Countries Can Forge a Path to Security' examines how societies emerge from extreme violence. Her recent work on political violence within democracies has been widely cited in the context of polarization in the United States and Europe.", tags:["Political Violence","Democratic Resilience","Rule of Law"], twitter:"RachaborKleinfeld", linkedin:"rachel-kleinfeld" }
+];
+
+/* ═══ HELPERS ═══ */
+const pastelColors=['#D5E5DC','#D3E4F0','#DDD5EC','#F3DDD1','#EDE4D3','#F0D4D8','#CCE8E0','#EDE9CE','#E0E0EC','#F0DCDC','#C9E0DB'];
+function getPastel(n){return pastelColors[n.split('').reduce((a,c)=>a+c.charCodeAt(0),0)%pastelColors.length]}
+function getInitials(n){return n.split(' ').filter(w=>!['Dr.','Prof.','Amb.','Ambassador','Justice'].includes(w)).map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function avatarSVG(n,sz){sz=sz||96;const i=getInitials(n),bg=getPastel(n);return`data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}"><rect width="${sz}" height="${sz}" rx="${sz/2}" fill="${bg}"/><text x="${sz/2}" y="${sz/2}" text-anchor="middle" dy=".36em" font-family="'Playfair Display',Georgia,serif" font-size="${sz*.36}" font-weight="600" fill="#3B4856">${i}</text></svg>`)}`}
+
+const specialtyLabels={'geopolitics':'Geopolitics','diplomacy':'Diplomacy','security':'Security & Defense','economic':'Economic Policy','intl-law':'International Law','human-rights':'Human Rights','middle-east':'Middle East'};
+
+/* ═══ FLAG MAP — expertise focus countries (ISO codes) ═══ */
+const flagMap={
+  "Ian Bremmer":["us","un"],"Dr. Fiona Hill":["ru","us"],"Fareed Zakaria":["us","un"],
+  "Dr. Richard Haass":["us","un"],"Anne-Marie Slaughter":["us"],"Prof. Joseph Nye":["us"],
+  "Prof. Francis Fukuyama":["us"],"Amb. Samantha Power":["us","un"],
+  "Prof. Kishore Mahbubani":["sg","un"],"Dr. Vali Nasr":["ir"],
+  "Dr. Ngozi Okonjo-Iweala":["ng","un"],"Dr. Robert Kagan":["us","eu"],
+  "Dr. Jessica Tuchman Mathews":["us"],"Robin Wright":["ir"],
+  "Dr. Brahma Chellaney":["in","cn"],"Dr. Nathalie Tocci":["eu","it"],
+  "Dr. Comfort Ero":["un"],"Prof. G. John Ikenberry":["us"],
+  "Dr. Dalia Dassa Kaye":["il","ir"],"Prof. Amitav Acharya":["un"],
+  "Dr. Rosa Brooks":["us"],"Dr. Shivshankar Menon":["in"],
+  "Dr. Karen E. Smith":["eu"],"Dr. Moises Naim":["ve","un"],
+  "Dr. Hina Rabbani Khar":["pk"],"Dr. Thomas Wright":["us","eu"],
+  "Dr. Rym Ayadi":["eu","un"],"Dr. Michael J. Green":["jp","un"],
+  "Dr. Minxin Pei":["cn"],"Dr. Alina Polyakova":["ru","ua"],
+  "Dr. Shibley Telhami":["il","ps"],"Dr. Ngaire Woods":["gb","un"],
+  "Dr. Victor Cha":["kr","kp"],"Dr. Daniela Schwarzer":["de","eu"],
+  "Dr. Sanam Vakil":["ir"],"Dr. Matias Spektor":["br","un"],
+  "Dr. Rana Mitter":["cn"],"Dr. Landry Signé":["un"],
+  "Dr. Kori Schake":["us"],"Dr. Yuen Yuen Ang":["cn"],
+  "Dr. Gideon Rachman":["un"],"Dr. Mira Rapp-Hooper":["us","un"],
+  "Dr. Arundhati Ghose":["in"],"Dr. Mark Leonard":["eu","cn"],
+  "Dr. Funmi Olonisakin":["un"],"Dr. Emile Hokayem":["sy","lb"],
+  "Dr. Bonnie Glaser":["cn","tw"],"Dr. Ibrahim Kalin":["tr"],
+  "Dr. Rachel Kleinfeld":["us"]
+};
+const regionLabels={'north-america':'North America','europe':'Europe','asia-pacific':'Asia-Pacific','middle-east':'Middle East & North Africa','africa':'Sub-Saharan Africa','americas':'Latin America & Caribbean','global':'Global'};
+const countryLabels={'us':'United States','gb':'United Kingdom','de':'Germany','it':'Italy','in':'India','sg':'Singapore','ch':'Switzerland','be':'Belgium','pk':'Pakistan','br':'Brazil','tr':'Turkey'};
+const ageLabels={'under-40':'Under 40','40-60':'40 to 60','over-60':'Over 60'};
+const genderLabels={'male':'Male','female':'Female'};
+const nativeLabels={true:'Native to Region',false:'Non-Native'};
+const languageList=[...new Set(experts.flatMap(e=>e.languages))].sort();
+const countryList=[...new Set(experts.map(e=>e.country))].sort();
+
+function countBy(arr,key){const c={};arr.forEach(e=>{const v=e[key];c[v]=(c[v]||0)+1});return c}
+function countLang(arr,lang){return arr.filter(e=>e.languages.includes(lang)).length}
+function countNative(arr,val){return arr.filter(e=>e.native===val).length}
+
+const specialtyCounts=countBy(experts,'specialty');
+const regionCounts=countBy(experts,'region');
+const countryCounts=countBy(experts,'country');
+const ageCounts=countBy(experts,'age');
+const genderCounts=countBy(experts,'gender');
+
+/* ═══ STATE ═══ */
+let filters={specialty:[],region:[],country:[],language:[],age:[],gender:[],native:[]};
+let countrySearchQuery='';
+
+/* ═══ ACCORDION — Single open behavior ═══ */
+function toggleAccordion(btn){
+  const body=btn.nextElementSibling;
+  const expanded=btn.getAttribute('aria-expanded')==='true';
+
+  // Close all other accordions first
+  document.querySelectorAll('.accordion-trigger').forEach(trigger=>{
+    if(trigger!==btn){
+      trigger.setAttribute('aria-expanded','false');
+      trigger.nextElementSibling.classList.add('collapsed');
+    }
+  });
+
+  btn.setAttribute('aria-expanded',!expanded);
+  if(expanded){body.classList.add('collapsed')}else{body.classList.remove('collapsed')}
+}
+
+/* ═══ COUNTRY SEARCH ═══ */
+function filterCountryList(q){
+  countrySearchQuery=q.toLowerCase();
+  buildCountryFilters();
+}
+
+/* ═══ BUILD FILTERS ═══ */
+function buildFilterBtn(type,value,label,count,hasFlag=false){
+  const flagHtml=hasFlag?`<img class="flag" src="flag-icons-main/flags/4x3/${value}.svg" alt="${value}">`:'';
+  return`<button class="filter-btn" data-type="${type}" data-value="${value}"><span class="check"></span>${flagHtml}<span class="label">${label}</span><span class="count">${count}</span></button>`;
+}
+
+function buildFilters(){
+  // Specialty
+  let h='';
+  Object.entries(specialtyLabels).forEach(([k,v])=>{
+    if(specialtyCounts[k]) h+=buildFilterBtn('specialty',k,v,specialtyCounts[k]);
+  });
+  document.getElementById('specialtyFilters').innerHTML=h;
+
+  // Region
+  h='';
+  Object.entries(regionLabels).forEach(([k,v])=>{
+    if(regionCounts[k]) h+=buildFilterBtn('region',k,v,regionCounts[k]);
+  });
+  document.getElementById('regionFilters').innerHTML=h;
+
+  // Language
+  h='';
+  languageList.forEach(lang=>{
+    const c=countLang(experts,lang);
+    h+=buildFilterBtn('language',lang,lang,c);
+  });
+  document.getElementById('languageFilters').innerHTML=h;
+
+  // Age
+  h='';
+  Object.entries(ageLabels).forEach(([k,v])=>{
+    if(ageCounts[k]) h+=buildFilterBtn('age',k,v,ageCounts[k]);
+  });
+  document.getElementById('ageFilters').innerHTML=h;
+
+  // Gender
+  h='';
+  Object.entries(genderLabels).forEach(([k,v])=>{
+    if(genderCounts[k]) h+=buildFilterBtn('gender',k,v,genderCounts[k]);
+  });
+  document.getElementById('genderFilters').innerHTML=h;
+
+  // Native
+  h='';
+  h+=buildFilterBtn('native','true','Native to Region',countNative(experts,true));
+  h+=buildFilterBtn('native','false','Non-Native',countNative(experts,false));
+  document.getElementById('nativeFilters').innerHTML=h;
+
+  // Country
+  buildCountryFilters();
+}
+
+function buildCountryFilters(){
+  buildCountryTicker();
+}
+
+function buildCountryTicker(){
+  let items='';
+  countryList.forEach(code=>{
+    const label=countryLabels[code]||code.toUpperCase();
+    const isActive=filters.country.includes(code)?'active':'';
+    if(countryCounts[code]) items+=`<span class="ticker-pill ${isActive}" data-code="${code}"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code}">${label}</span>`;
+  });
+  // Duplicate for seamless loop
+  document.getElementById('countryTicker').innerHTML=items+items;
+}
+
+// Ticker click
+document.getElementById('countryTicker').addEventListener('click',e=>{
+  const pill=e.target.closest('.ticker-pill');
+  if(!pill)return;
+  const code=pill.dataset.code;
+  toggleCountryFilter(code);
+});
+
+function toggleCountryFilter(code){
+  const idx=filters.country.indexOf(code);
+  if(idx>-1){
+    filters.country.splice(idx,1);
+  }else{
+    filters.country.push(code);
+  }
+  buildCountryTicker();
+  updateReset();
+  renderCards();
+}
+
+// Country search dropdown
+const searchInput=document.getElementById('searchInput');
+const dropdown=document.getElementById('countryDropdown');
+
+function showCountryDropdown(query=''){
+  const q=query.toLowerCase();
+  let h='';
+  countryList.filter(code=>{
+    const label=countryLabels[code]||code.toUpperCase();
+    return countryCounts[code]&&(!q||label.toLowerCase().includes(q));
+  }).forEach(code=>{
+    const label=countryLabels[code]||code.toUpperCase();
+    const isActive=filters.country.includes(code)?'active':'';
+    h+=`<div class="country-dropdown-item ${isActive}" data-code="${code}"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code}"><span>${label}</span></div>`;
+  });
+  dropdown.innerHTML=h||'<div style="padding:16px;color:var(--gray-400);text-align:center">No countries found</div>';
+  dropdown.classList.add('visible');
+}
+
+searchInput.addEventListener('focus',()=>showCountryDropdown(searchInput.value));
+searchInput.addEventListener('input',e=>showCountryDropdown(e.target.value));
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.spotlight'))dropdown.classList.remove('visible');
+});
+
+dropdown.addEventListener('click',e=>{
+  const item=e.target.closest('.country-dropdown-item');
+  if(!item)return;
+  toggleCountryFilter(item.dataset.code);
+  showCountryDropdown(searchInput.value);
+});
+
+buildFilters();
+
+/* ═══ FILTER CLICK ═══ */
+document.getElementById('sidebar').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn')||e.target.closest('.country-pill');
+  if(!btn)return;
+  const type=btn.dataset.type;
+  let val=btn.dataset.value;
+  // Handle boolean for native
+  if(type==='native')val=val==='true';
+
+  // Multi-select toggle
+  const idx=filters[type].indexOf(val);
+  if(idx>-1){
+    filters[type].splice(idx,1);
+    btn.classList.remove('active');
+  }else{
+    filters[type].push(val);
+    btn.classList.add('active');
+  }
+  updateReset();
+  renderCards();
+});
+
+function resetFilters(){
+  filters={specialty:[],region:[],country:[],language:[],age:[],gender:[],native:[]};
+  document.querySelectorAll('.filter-btn,.hero-country-pill').forEach(b=>b.classList.remove('active'));
+  buildCountryFilters();
+  updateReset();
+  renderCards();
+}
+function updateReset(){
+  const any=filters.specialty.length||filters.region.length||filters.country.length||filters.language.length||filters.age.length||filters.gender.length||filters.native.length;
+  document.getElementById('resetBtn').classList.toggle('visible',!!any);
+  renderActiveFilters();
+}
+
+function renderActiveFilters(){
+  const container=document.getElementById('activeFilters');
+  const chips=[];
+
+  filters.specialty.forEach(v=>chips.push({type:'specialty',value:v,label:specialtyLabels[v]||v}));
+  filters.region.forEach(v=>chips.push({type:'region',value:v,label:regionLabels[v]||v}));
+  filters.country.forEach(v=>chips.push({type:'country',value:v,label:countryLabels[v]||v.toUpperCase()}));
+  filters.language.forEach(v=>chips.push({type:'language',value:v,label:v}));
+  filters.age.forEach(v=>chips.push({type:'age',value:v,label:ageLabels[v]||v}));
+  filters.gender.forEach(v=>chips.push({type:'gender',value:v,label:genderLabels[v]||v}));
+  filters.native.forEach(v=>chips.push({type:'native',value:String(v),label:v?'Native':'Non-Native'}));
+
+  container.innerHTML=chips.map(c=>`<span class="active-filter" data-type="${c.type}" data-value="${c.value}">${c.label}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>`).join('');
+
+  container.querySelectorAll('.active-filter').forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      const type=chip.dataset.type;
+      let val=chip.dataset.value;
+      if(type==='native')val=val==='true';
+      const idx=filters[type].indexOf(val);
+      if(idx>-1)filters[type].splice(idx,1);
+      // Also remove active class from sidebar button
+      const btn=document.querySelector(`.filter-btn[data-type="${type}"][data-value="${chip.dataset.value}"]`);
+      if(btn)btn.classList.remove('active');
+      updateReset();
+      renderCards();
+    });
+  });
+}
+
+/* ═══ SEARCH — rotating placeholder ═══ */
+const placeholders=["Search United States...","Search United Kingdom...","Search Germany...","Search India...","Search Singapore...","Search Switzerland..."];
+let phIdx=0;
+function rotatePlaceholder(){
+  if(!searchInput.value){
+    phIdx=(phIdx+1)%placeholders.length;
+    searchInput.setAttribute('placeholder',placeholders[phIdx]);
+  }
+}
+setInterval(rotatePlaceholder,3000);
+
+/* ═══ RENDER ═══ */
+function renderCards(){
+  const grid=document.getElementById('cardGrid');
+  const countEl=document.getElementById('resultCount');
+
+  const filtered=experts.filter(e=>{
+    if(filters.specialty.length && !filters.specialty.includes(e.specialty)) return false;
+    if(filters.region.length && !filters.region.includes(e.region)) return false;
+    if(filters.country.length && !filters.country.includes(e.country)) return false;
+    if(filters.language.length && !filters.language.some(l=>e.languages.includes(l))) return false;
+    if(filters.age.length && !filters.age.includes(e.age)) return false;
+    if(filters.gender.length && !filters.gender.includes(e.gender)) return false;
+    if(filters.native.length && !filters.native.includes(e.native)) return false;
+    return true;
+  });
+
+  countEl.textContent=`${filtered.length} expert${filtered.length!==1?'s':''}`;
+
+  if(!filtered.length){
+    grid.innerHTML=`<div class="empty-state"><svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M8 11h6"/></svg><p>No experts found</p><span>Try adjusting your search or filters</span></div>`;
+    return;
+  }
+
+  grid.innerHTML=filtered.map((e,i)=>{
+    const idx=experts.indexOf(e);
+    const socials=[];
+    if(e.twitter)socials.push(`<a href="https://x.com/${e.twitter}" target="_blank" rel="noopener" title="X" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>`);
+    if(e.linkedin)socials.push(`<a href="https://linkedin.com/in/${e.linkedin}" target="_blank" rel="noopener" title="LinkedIn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>`);
+    const ws=websiteMap[e.name];
+    if(ws)socials.push(`<a href="${ws}" target="_blank" rel="noopener" title="Publications" onclick="event.stopPropagation()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></a>`);
+    const flags=flagMap[e.name]||[];
+    const flagsHtml=flags.length?`<div class="card-flags">${flags.map(code=>`<span class="card-flag-chip"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code.toUpperCase()}">${countryLabels[code]||code.toUpperCase()}</span>`).join('')}</div>`:'';
+    return`<div class="card" data-index="${idx}" style="animation:fadeUp 250ms ${i*15}ms both">${flagsHtml}<img class="card-avatar" src="${avatarSVG(e.name,180)}" alt="${e.name}"/><div class="card-body"><div class="card-name">${e.name}</div><div class="card-bio">${e.bio}</div>${socials.length?`<div class="card-socials">${socials.join('')}</div>`:''}</div></div>`;
+  }).join('');
+
+  grid.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>openModal(+c.dataset.index)));
+}
+
+/* ═══ LOCATION MAP ═══ */
+const locationMap={
+  "Ian Bremmer":"New York, USA","Dr. Fiona Hill":"Washington, DC","Fareed Zakaria":"New York, USA",
+  "Dr. Richard Haass":"New York, USA","Anne-Marie Slaughter":"Washington, DC","Prof. Joseph Nye":"Cambridge, MA, USA",
+  "Prof. Francis Fukuyama":"Stanford, CA, USA","Amb. Samantha Power":"Washington, DC",
+  "Prof. Kishore Mahbubani":"Singapore","Dr. Vali Nasr":"Washington, DC",
+  "Dr. Ngozi Okonjo-Iweala":"Geneva, Switzerland","Dr. Robert Kagan":"Washington, DC",
+  "Dr. Jessica Tuchman Mathews":"Washington, DC","Robin Wright":"Washington, DC",
+  "Dr. Brahma Chellaney":"New Delhi, India","Dr. Nathalie Tocci":"Rome, Italy",
+  "Dr. Comfort Ero":"Brussels, Belgium","Prof. G. John Ikenberry":"Princeton, NJ, USA",
+  "Dr. Dalia Dassa Kaye":"Los Angeles, CA, USA","Prof. Amitav Acharya":"Washington, DC",
+  "Dr. Rosa Brooks":"Washington, DC","Dr. Shivshankar Menon":"New Delhi, India",
+  "Dr. Karen E. Smith":"London, UK","Dr. Moises Naim":"Washington, DC",
+  "Dr. Hina Rabbani Khar":"Islamabad, Pakistan","Dr. Thomas Wright":"Washington, DC",
+  "Dr. Rym Ayadi":"London, UK","Dr. Michael J. Green":"Washington, DC",
+  "Dr. Minxin Pei":"Claremont, CA, USA","Dr. Alina Polyakova":"Washington, DC",
+  "Dr. Shibley Telhami":"College Park, MD, USA","Dr. Ngaire Woods":"Oxford, UK",
+  "Dr. Victor Cha":"Washington, DC","Dr. Daniela Schwarzer":"Gütersloh, Germany",
+  "Dr. Sanam Vakil":"London, UK","Dr. Matias Spektor":"São Paulo, Brazil",
+  "Dr. Rana Mitter":"Cambridge, MA, USA","Dr. Landry Signé":"Washington, DC",
+  "Dr. Kori Schake":"Washington, DC","Dr. Yuen Yuen Ang":"Baltimore, MD, USA",
+  "Dr. Gideon Rachman":"London, UK","Dr. Mira Rapp-Hooper":"Washington, DC",
+  "Dr. Arundhati Ghose":"New Delhi, India","Dr. Mark Leonard":"London, UK",
+  "Dr. Funmi Olonisakin":"London, UK","Dr. Emile Hokayem":"London, UK",
+  "Dr. Bonnie Glaser":"Washington, DC","Dr. Ibrahim Kalin":"Istanbul, Turkey",
+  "Dr. Rachel Kleinfeld":"Washington, DC"
+};
+
+/* ═══ WEBSITE MAP ═══ */
+const websiteMap={
+  "Ian Bremmer":"https://www.eurasiagroup.net","Dr. Fiona Hill":"https://www.brookings.edu/people/fiona-hill/",
+  "Fareed Zakaria":"https://fareedzakaria.com","Dr. Richard Haass":"https://www.cfr.org/bio/richard-haass",
+  "Anne-Marie Slaughter":"https://www.newamerica.org","Prof. Joseph Nye":"https://www.hks.harvard.edu/faculty/joseph-nye",
+  "Prof. Francis Fukuyama":"https://fsi.stanford.edu/people/francis-fukuyama",
+  "Amb. Samantha Power":"https://www.usaid.gov","Prof. Kishore Mahbubani":"https://www.kishoremahbubani.info",
+  "Dr. Vali Nasr":"https://www.sais-jhu.edu","Dr. Ngozi Okonjo-Iweala":"https://www.wto.org",
+  "Dr. Robert Kagan":"https://www.brookings.edu/people/robert-kagan/",
+  "Robin Wright":"https://www.newyorker.com/contributors/robin-wright",
+  "Dr. Brahma Chellaney":"https://www.cprindia.org","Dr. Nathalie Tocci":"https://www.iai.it",
+  "Dr. Comfort Ero":"https://www.crisisgroup.org","Prof. G. John Ikenberry":"https://www.princeton.edu",
+  "Prof. Amitav Acharya":"https://www.american.edu","Dr. Rosa Brooks":"https://www.law.georgetown.edu",
+  "Dr. Karen E. Smith":"https://www.lse.ac.uk","Dr. Moises Naim":"https://carnegieendowment.org",
+  "Dr. Thomas Wright":"https://www.brookings.edu","Dr. Michael J. Green":"https://www.usip.org",
+  "Dr. Minxin Pei":"https://www.cmc.edu","Dr. Alina Polyakova":"https://cepa.org",
+  "Dr. Shibley Telhami":"https://www.umd.edu","Dr. Ngaire Woods":"https://www.bsg.ox.ac.uk",
+  "Dr. Victor Cha":"https://www.csis.org","Dr. Daniela Schwarzer":"https://www.bertelsmann-stiftung.de",
+  "Dr. Sanam Vakil":"https://www.chathamhouse.org","Dr. Matias Spektor":"https://portal.fgv.br",
+  "Dr. Rana Mitter":"https://www.hks.harvard.edu","Dr. Landry Signé":"https://www.brookings.edu",
+  "Dr. Kori Schake":"https://www.aei.org","Dr. Yuen Yuen Ang":"https://www.jhu.edu",
+  "Dr. Gideon Rachman":"https://www.ft.com","Dr. Mark Leonard":"https://ecfr.eu",
+  "Dr. Funmi Olonisakin":"https://www.kcl.ac.uk","Dr. Emile Hokayem":"https://www.iiss.org",
+  "Dr. Bonnie Glaser":"https://www.gmfus.org","Dr. Ibrahim Kalin":"https://www.tccb.gov.tr",
+  "Dr. Rachel Kleinfeld":"https://carnegieendowment.org"
+};
+
+
+/* ═══ MODAL ═══ */
+function openModal(idx){
+  const e=experts[idx];
+
+  // Flags in header
+  const flags=flagMap[e.name]||[];
+  document.getElementById('modalFlags').innerHTML=flags.map(code=>`<span class="modal-flag-chip"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code.toUpperCase()}">${countryLabels[code]||code.toUpperCase()}</span>`).join('');
+
+  document.getElementById('modalAvatar').src=avatarSVG(e.name,200);
+  document.getElementById('modalName').textContent=e.name;
+
+  // Render affiliations (supports multiple)
+  const affiliations=e.affiliations||[{title:e.designation,org:e.org}];
+  const affHtml=affiliations.map(aff=>`
+    <div class="modal-affiliation">
+      <span class="modal-affiliation-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></span>
+      <div class="modal-affiliation-text">
+        <div class="modal-designation">${aff.title}</div>
+        <div class="modal-org">${aff.org}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('modalAffiliations').innerHTML=affHtml;
+
+  document.getElementById('modalBio').textContent=e.fullBio;
+  document.getElementById('modalTags').innerHTML=e.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('');
+
+  // Country label
+  const loc=locationMap[e.name]||'';
+  document.getElementById('modalCountry').textContent=loc;
+
+  // Languages section (age, gender, native hidden but available for filtering)
+  const langHtml=e.languages.map(lang=>`<div class="modal-demo-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="demo-value">${lang}</span></div>`).join('');
+  document.getElementById('modalDemographics').innerHTML=langHtml;
+
+  // Footer icons
+  const ws=websiteMap[e.name]||'';
+  const ic=[];
+
+  // Info icons (location, languages)
+  if(loc) ic.push(`<span class="modal-footer-icon" data-tooltip="${loc}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>`);
+  if(ws) ic.push(`<a class="modal-footer-icon" href="${ws}" target="_blank" rel="noopener" data-tooltip="Website"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>`);
+
+  ic.push(`<div class="modal-footer-divider"></div>`);
+
+  // Connect icons
+  if(e.twitter) ic.push(`<a class="modal-footer-icon" href="https://x.com/${e.twitter}" target="_blank" rel="noopener" data-tooltip="@${e.twitter}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>`);
+  if(e.linkedin) ic.push(`<a class="modal-footer-icon" href="https://linkedin.com/in/${e.linkedin}" target="_blank" rel="noopener" data-tooltip="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>`);
+  const nameEnc=encodeURIComponent(e.name.replace(/^(Dr\.|Prof\.|Amb\.|Ambassador)\s*/,''));
+  ic.push(`<a class="modal-footer-icon" href="https://scholar.google.com/scholar?q=author:${nameEnc}" target="_blank" rel="noopener" data-tooltip="Publications"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>`);
+
+  document.getElementById('modalFooter').innerHTML=ic.join('');
+
+  document.getElementById('overlay').classList.add('visible');
+  document.getElementById('modal').classList.add('visible');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('overlay').classList.remove('visible');document.getElementById('modal').classList.remove('visible');document.body.style.overflow=''}
+document.getElementById('overlay').addEventListener('click',closeModal);
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* ═══ ANIMATION ═══ */
+const s=document.createElement('style');
+s.textContent=`@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}`;
+document.head.appendChild(s);
+
+/* ═══ INIT ═══ */
+renderCards();
+</script>
+</body>
+</html>
