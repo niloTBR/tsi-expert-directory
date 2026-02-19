@@ -9,6 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    .auth-overlay{position:fixed;inset:0;background:var(--charcoal);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .3s}
+    .auth-overlay.hidden{opacity:0;pointer-events:none}
+    .auth-box{background:var(--white);padding:48px;border-radius:20px;width:100%;max-width:400px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+    .auth-logo{height:48px;margin-bottom:24px}
+    .auth-title{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:600;color:var(--charcoal);margin-bottom:8px}
+    .auth-subtitle{font-size:14px;color:var(--gray-500);margin-bottom:32px}
+    .auth-input{width:100%;padding:14px 18px;border:1px solid var(--gray-200);border-radius:10px;font-size:15px;font-family:inherit;margin-bottom:16px;transition:border-color .2s}
+    .auth-input:focus{outline:none;border-color:var(--steel)}
+    .auth-btn{width:100%;padding:14px;background:var(--charcoal);color:var(--white);border:none;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:background .2s}
+    .auth-btn:hover{background:var(--gray-800)}
+    .auth-error{color:#e53935;font-size:13px;margin-top:12px;display:none}
+    .auth-error.visible{display:block}
     :root{
       --steel:#6B8E9B;
       --charcoal:#3B4856;
@@ -230,6 +242,19 @@
   </style>
 </head>
 <body>
+  <!-- Auth Overlay -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-box">
+      <img src="Sage+White.webp" alt="TSI" class="auth-logo" style="filter:invert(1) brightness(0.3)">
+      <div class="auth-title">Expert Directory</div>
+      <div class="auth-subtitle">Please sign in to continue</div>
+      <input type="text" class="auth-input" id="authUser" placeholder="Username" autocomplete="off">
+      <input type="password" class="auth-input" id="authPass" placeholder="Password">
+      <button class="auth-btn" onclick="checkAuth()">Sign In</button>
+      <div class="auth-error" id="authError">Invalid username or password</div>
+    </div>
+  </div>
+
   <header class="header">
     <div class="header-inner">
       <img src="Sage+White.webp" alt="The Sage Institute for Foreign Affairs" class="header-logo" />
@@ -346,6 +371,22 @@
   </div>
 
 <script>
+/* ═══ AUTH ═══ */
+const AUTH_USER='sageinstitute';
+const AUTH_PASS='experts2025';
+function checkAuth(){
+  const u=document.getElementById('authUser').value;
+  const p=document.getElementById('authPass').value;
+  if(u===AUTH_USER&&p===AUTH_PASS){
+    document.getElementById('authOverlay').classList.add('hidden');
+    sessionStorage.setItem('tsi_auth','1');
+  }else{
+    document.getElementById('authError').classList.add('visible');
+  }
+}
+document.getElementById('authPass').addEventListener('keypress',e=>{if(e.key==='Enter')checkAuth()});
+if(sessionStorage.getItem('tsi_auth')==='1')document.getElementById('authOverlay').classList.add('hidden');
+
 /* ═══ DATA — Real Foreign Policy Experts ═══ */
 const experts = [
   { name:"Ian Bremmer", designation:"President & Founder", org:"Eurasia Group", affiliations:[{title:"President & Founder",org:"Eurasia Group"},{title:"President",org:"GZERO Media"},{title:"Professor",org:"Columbia University"}], bio:"Global political risk pioneer. Built the world's leading political risk firm. Author, professor, media presence.", specialty:"geopolitics", region:"north-america", languages:["English"], country:"us", age:"40-60", gender:"male", native:false, fullBio:"Ian Bremmer is the president and founder of Eurasia Group, the world's leading political risk research and consulting firm. He is also the president of GZERO Media. A prolific author, his books include 'Every Nation for Itself,' 'The J Curve,' and 'Us vs. Them.' He teaches at Columbia University and is widely recognized as a leading voice on global political risk, geopolitics, and US foreign policy.", tags:["Political Risk","Geopolitics","US Foreign Policy"], twitter:"ianbremmer", linkedin:"ianbremmer" },
