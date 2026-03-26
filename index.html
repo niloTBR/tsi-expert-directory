@@ -66,23 +66,7 @@
     .spotlight input::placeholder{color:var(--gray-500);font-weight:400;transition:opacity .3s}
     .spotlight svg{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--gray-400);pointer-events:none}
     .spotlight-count{text-align:center;margin-top:12px;font-size:12px;color:rgba(255,255,255,.3);letter-spacing:.02em}
-    .country-ticker{width:100%;overflow:hidden;margin-top:24px;position:relative}
-    .country-ticker::before,.country-ticker::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:1;pointer-events:none}
-    .country-ticker::before{left:0;background:linear-gradient(90deg,var(--charcoal),transparent)}
-    .country-ticker::after{right:0;background:linear-gradient(-90deg,var(--charcoal),transparent)}
-    .country-ticker-track{display:flex;gap:12px;animation:ticker 30s linear infinite;width:max-content}
-    .country-ticker-track:hover{animation-play-state:paused}
-    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-    .ticker-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;font-size:10px;font-weight:700;color:rgba(255,255,255,.6);cursor:pointer;transition:all var(--transition);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
-    .ticker-pill:hover{background:rgba(255,255,255,.15);color:rgba(255,255,255,.9)}
-    .ticker-pill.active{background:var(--white);border-color:var(--white);color:var(--charcoal)}
-    .ticker-pill img{width:16px;height:11px;border-radius:2px;object-fit:cover}
-    .country-dropdown{position:absolute;top:100%;left:0;right:0;margin-top:8px;background:var(--white);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.2);max-height:280px;overflow-y:auto;z-index:10;display:none}
-    .country-dropdown.visible{display:block}
-    .country-dropdown-item{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:background var(--transition)}
-    .country-dropdown-item:hover{background:var(--gray-50)}
-    .country-dropdown-item.active{background:var(--gray-100)}
-    .country-dropdown-item img{width:24px;height:17px;border-radius:3px;object-fit:cover;border:0.5px solid var(--gray-200)}
+    /* country ticker removed */
     .country-dropdown-item span{font-size:14px;font-weight:500;color:var(--charcoal)}
 
     /* ─ Layout ─ */
@@ -121,9 +105,7 @@
 
     /* Country pill style */
     .country-filters-grid{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
-    .country-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;background:var(--white);border:1px solid var(--gray-200);border-radius:100px;font-size:11px;font-weight:700;color:var(--gray-600);cursor:pointer;transition:all var(--transition);font-family:inherit;text-transform:uppercase;letter-spacing:.04em}
-    .country-pill:hover{border-color:var(--gray-300);background:var(--gray-50)}
-    .country-pill.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--white)}
+    /* country pills moved to sidebar */
     .country-pill img{width:20px;height:14px;border-radius:2px;object-fit:cover;border:0.5px solid var(--gray-200)}
     .country-pill.active img{border-color:rgba(255,255,255,.3)}
 
@@ -141,15 +123,17 @@
     .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 
     /* ─ Card ─ */
-    .card{background:var(--white);padding:28px 24px;cursor:pointer;transition:all var(--transition);display:flex;flex-direction:column;align-items:flex-start;border-radius:var(--radius);border:1px solid var(--gray-200)}
-    .card:hover{background:var(--gray-100);border-color:var(--gray-300)}
+    .card{background:var(--white);cursor:pointer;transition:all var(--transition);display:flex;flex-direction:column;align-items:flex-start;border-radius:var(--radius);border:1px solid var(--gray-200);overflow:hidden}
+    .card:hover{border-color:var(--gray-300)}
+    .card-flags-bar{display:flex;width:100%;gap:0;background:var(--charcoal)}
+    .card-flags-bar .flag-band{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--charcoal);color:var(--white);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;min-height:40px}
+    .card-flags-bar .flag-band img{width:20px;height:14px;border-radius:2px;object-fit:cover;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
+    .card-flags-bar .flag-band+.flag-band{border-left:1px solid rgba(255,255,255,.15)}
+    .card-inner{padding:28px 24px;display:flex;flex-direction:column;align-items:flex-start;width:100%}
     .card-avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;margin-bottom:24px}
     .card-body{width:100%;text-align:left}
     .card-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:600;color:var(--black);line-height:1.25;margin-bottom:24px}
     .card-designation{font-size:14px;color:var(--steel);font-weight:500;margin-bottom:0;letter-spacing:.01em;line-height:1.5}
-    .card-flags{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;width:100%;margin-bottom:24px}
-    .card-flag-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px 5px 7px;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;font-size:10px;font-weight:700;color:var(--gray-700);text-transform:uppercase;letter-spacing:.04em}
-    .card-flag-chip img{width:18px;height:13px;border-radius:2px;object-fit:cover;border:0.5px solid var(--gray-200)}
     .card-bio{font-size:14px;color:var(--gray-600);line-height:1.65;margin-bottom:24px}
     .card-meta{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
     .card-tag{font-size:13px;font-weight:500;color:var(--gray-500);background:var(--gray-100);padding:5px 12px;border-radius:100px}
@@ -166,12 +150,14 @@
     .overlay.visible{opacity:1;pointer-events:auto}
     .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);z-index:101;width:90%;max-width:720px;max-height:85vh;background:var(--white);border-radius:20px;overflow:hidden;opacity:0;pointer-events:none;transition:opacity 200ms ease,transform 200ms ease;display:flex;flex-direction:column}
     .modal.visible{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
-    .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--gray-100)}
-    .modal-flags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .modal-flag-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px 6px 8px;background:var(--white);border:1px solid var(--gray-200);border-radius:100px;font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.04em}
-    .modal-flag-chip img{width:20px;height:14px;border-radius:2px;object-fit:cover;border:0.5px solid var(--gray-200)}
-    .modal-close{background:var(--gray-100);border:none;color:var(--gray-400);width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
-    .modal-close:hover{background:var(--gray-200);color:var(--black)}
+    .modal-header{display:flex;align-items:stretch;position:relative;background:var(--charcoal)}
+    .modal-flags-bar{display:flex;gap:0;background:var(--charcoal);width:100%}
+    .modal-flags-bar .flag-band{display:flex;align-items:center;gap:10px;padding:14px 20px;background:var(--charcoal);color:var(--white);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+    .modal-flags-bar .flag-band img{width:22px;height:16px;border-radius:2px;object-fit:cover;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
+    .modal-flags-bar .flag-band+.flag-band{border-left:1px solid rgba(255,255,255,.15)}
+    .modal-flags-bar-empty{background:var(--charcoal);min-height:46px;width:100%}
+    .modal-close{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.7);width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition);z-index:2}
+    .modal-close:hover{background:rgba(255,255,255,.25);color:var(--white)}
     .modal-close svg{width:18px;height:18px}
     .modal-top{padding:28px 32px 24px;display:flex;gap:28px;align-items:flex-start;flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--gray-200) transparent}
     .modal-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-width:200px;position:sticky;top:0;align-self:flex-start}
@@ -222,7 +208,8 @@
       .filter-scroll{max-height:160px}
       .content{padding:16px 20px 60px}
       .card-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:4px}
-      .card{padding:20px 16px}
+      .card-inner{padding:20px 16px}
+      .card-flags-bar .flag-band{padding:8px 8px;font-size:10px;gap:5px}
     }
     @media(max-width:480px){
       .hero{padding:32px 20px 28px}
@@ -266,28 +253,25 @@
     <p>We are dedicated to supporting and connecting international relations experts through visibility, recognition, and knowledge exchange.</p>
     <div class="spotlight">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="searchInput" placeholder="Search by country..." autocomplete="off" />
-      <div class="country-dropdown" id="countryDropdown"></div>
+      <input type="text" id="searchInput" placeholder="Search experts..." autocomplete="off" />
     </div>
     <div class="spotlight-count" id="resultCount"></div>
-    <div class="country-ticker">
-      <div class="country-ticker-track" id="countryTicker"></div>
-    </div>
   </section>
 
   <div class="main">
     <aside class="sidebar" id="sidebar">
-      <!-- Specialty Accordion -->
+      <!-- Country Expertise -->
       <div class="accordion">
         <button class="accordion-trigger" aria-expanded="true" onclick="toggleAccordion(this)">
-          Specialty
+          Country Expertise
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-body">
-          <div class="filter-scroll" id="specialtyFilters"></div>
+          <input type="text" class="filter-search" id="expertiseSearch" placeholder="Search countries..." autocomplete="off" />
+          <div class="filter-scroll" id="expertiseFilters"></div>
         </div>
       </div>
-      <!-- Region Accordion -->
+      <!-- Region -->
       <div class="accordion">
         <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
           Region
@@ -297,27 +281,17 @@
           <div class="filter-scroll" id="regionFilters"></div>
         </div>
       </div>
-            <!-- Language Accordion -->
+      <!-- Languages -->
       <div class="accordion">
         <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
-          Language
+          Languages
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-body collapsed">
           <div class="filter-scroll" id="languageFilters"></div>
         </div>
       </div>
-      <!-- Age Accordion -->
-      <div class="accordion">
-        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
-          Age
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="accordion-body collapsed">
-          <div class="filter-scroll" id="ageFilters"></div>
-        </div>
-      </div>
-      <!-- Gender Accordion -->
+      <!-- Gender -->
       <div class="accordion">
         <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
           Gender
@@ -327,14 +301,36 @@
           <div class="filter-scroll" id="genderFilters"></div>
         </div>
       </div>
-      <!-- Background Accordion -->
+      <!-- Years of Experience -->
       <div class="accordion">
         <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
-          Background
+          Years of Experience
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="accordion-body collapsed">
-          <div class="filter-scroll" id="nativeFilters"></div>
+          <div class="filter-scroll" id="experienceFilters"></div>
+        </div>
+      </div>
+      <!-- Location -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
+          Location
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body collapsed">
+          <input type="text" class="filter-search" id="locationSearch" placeholder="Search countries..." autocomplete="off" />
+          <div class="filter-scroll" id="locationFilters"></div>
+        </div>
+      </div>
+      <!-- Country of Origin -->
+      <div class="accordion">
+        <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">
+          Country of Origin
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-body collapsed">
+          <input type="text" class="filter-search" id="originSearch" placeholder="Search countries..." autocomplete="off" />
+          <div class="filter-scroll" id="originFilters"></div>
         </div>
       </div>
       <button class="sidebar-reset" id="resetBtn" onclick="resetFilters()">Clear all filters</button>
@@ -349,7 +345,7 @@
   <div class="overlay" id="overlay"></div>
   <div class="modal" id="modal">
     <div class="modal-header">
-      <div class="modal-flags" id="modalFlags"></div>
+      <div class="modal-flags-bar" id="modalFlags"></div>
       <button class="modal-close" id="modalClose"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
     </div>
     <div class="modal-top">
@@ -361,8 +357,8 @@
       </div>
       <div class="modal-right">
         <p class="modal-bio-text" id="modalBio"></p>
-        <div class="modal-section" style="margin-top:20px"><h3>Areas of Expertise</h3><div class="modal-tags" id="modalTags"></div></div>
         <div class="modal-section" style="margin-top:20px"><h3>Languages</h3><div class="modal-demographics" id="modalDemographics"></div></div>
+        <div class="modal-section" style="margin-top:20px"><h3>Country of Origin</h3><div id="modalOrigin" style="display:flex;flex-wrap:wrap;gap:8px"></div></div>
       </div>
     </div>
     <div class="modal-body">
@@ -450,42 +446,102 @@ const specialtyLabels={'geopolitics':'Geopolitics','diplomacy':'Diplomacy','secu
 
 /* ═══ FLAG MAP — expertise focus countries (ISO codes) ═══ */
 const flagMap={
-  "Ian Bremmer":["us","un"],"Dr. Fiona Hill":["ru","us"],"Fareed Zakaria":["us","un"],
-  "Dr. Richard Haass":["us","un"],"Anne-Marie Slaughter":["us"],"Prof. Joseph Nye":["us"],
-  "Prof. Francis Fukuyama":["us"],"Amb. Samantha Power":["us","un"],
-  "Prof. Kishore Mahbubani":["sg","un"],"Dr. Vali Nasr":["ir"],
-  "Dr. Ngozi Okonjo-Iweala":["ng","un"],"Dr. Robert Kagan":["us","eu"],
+  "Ian Bremmer":["us"],"Dr. Fiona Hill":["ru","us"],"Fareed Zakaria":["us"],
+  "Dr. Richard Haass":["us"],"Anne-Marie Slaughter":["us"],"Prof. Joseph Nye":["us"],
+  "Prof. Francis Fukuyama":["us"],"Amb. Samantha Power":["us"],
+  "Prof. Kishore Mahbubani":["sg"],"Dr. Vali Nasr":["ir"],
+  "Dr. Ngozi Okonjo-Iweala":["ng"],"Dr. Robert Kagan":["us"],
   "Dr. Jessica Tuchman Mathews":["us"],"Robin Wright":["ir"],
-  "Dr. Brahma Chellaney":["in","cn"],"Dr. Nathalie Tocci":["eu","it"],
-  "Dr. Comfort Ero":["un"],"Prof. G. John Ikenberry":["us"],
-  "Dr. Dalia Dassa Kaye":["il","ir"],"Prof. Amitav Acharya":["un"],
+  "Dr. Brahma Chellaney":["in","cn"],"Dr. Nathalie Tocci":["it"],
+  "Dr. Comfort Ero":[],"Prof. G. John Ikenberry":["us"],
+  "Dr. Dalia Dassa Kaye":["il","ir"],"Prof. Amitav Acharya":[],
   "Dr. Rosa Brooks":["us"],"Dr. Shivshankar Menon":["in"],
-  "Dr. Karen E. Smith":["eu"],"Dr. Moises Naim":["ve","un"],
-  "Dr. Hina Rabbani Khar":["pk"],"Dr. Thomas Wright":["us","eu"],
-  "Dr. Rym Ayadi":["eu","un"],"Dr. Michael J. Green":["jp","un"],
+  "Dr. Karen E. Smith":[],"Dr. Moises Naim":["ve"],
+  "Dr. Hina Rabbani Khar":["pk"],"Dr. Thomas Wright":["us"],
+  "Dr. Rym Ayadi":[],"Dr. Michael J. Green":["jp"],
   "Dr. Minxin Pei":["cn"],"Dr. Alina Polyakova":["ru","ua"],
-  "Dr. Shibley Telhami":["il","ps"],"Dr. Ngaire Woods":["gb","un"],
-  "Dr. Victor Cha":["kr","kp"],"Dr. Daniela Schwarzer":["de","eu"],
-  "Dr. Sanam Vakil":["ir"],"Dr. Matias Spektor":["br","un"],
-  "Dr. Rana Mitter":["cn"],"Dr. Landry Signé":["un"],
+  "Dr. Shibley Telhami":["il","ps"],"Dr. Ngaire Woods":["gb"],
+  "Dr. Victor Cha":["kr","kp"],"Dr. Daniela Schwarzer":["de"],
+  "Dr. Sanam Vakil":["ir"],"Dr. Matias Spektor":["br"],
+  "Dr. Rana Mitter":["cn"],"Dr. Landry Signé":[],
   "Dr. Kori Schake":["us"],"Dr. Yuen Yuen Ang":["cn"],
-  "Dr. Gideon Rachman":["un"],"Dr. Mira Rapp-Hooper":["us","un"],
-  "Dr. Arundhati Ghose":["in"],"Dr. Mark Leonard":["eu","cn"],
-  "Dr. Funmi Olonisakin":["un"],"Dr. Emile Hokayem":["sy","lb"],
+  "Dr. Gideon Rachman":[],"Dr. Mira Rapp-Hooper":["us"],
+  "Dr. Arundhati Ghose":["in"],"Dr. Mark Leonard":["cn"],
+  "Dr. Funmi Olonisakin":[],"Dr. Emile Hokayem":["sy","lb"],
   "Dr. Bonnie Glaser":["cn","tw"],"Dr. Ibrahim Kalin":["tr"],
   "Dr. Rachel Kleinfeld":["us"]
 };
 const regionLabels={'north-america':'North America','europe':'Europe','asia-pacific':'Asia-Pacific','middle-east':'Middle East & North Africa','africa':'Sub-Saharan Africa','americas':'Latin America & Caribbean','global':'Global'};
-const countryLabels={'us':'United States','gb':'United Kingdom','de':'Germany','it':'Italy','in':'India','sg':'Singapore','ch':'Switzerland','be':'Belgium','pk':'Pakistan','br':'Brazil','tr':'Turkey'};
-const ageLabels={'under-40':'Under 40','40-60':'40 to 60','over-60':'Over 60'};
+const countryLabels={'us':'United States','gb':'United Kingdom','de':'Germany','it':'Italy','in':'India','sg':'Singapore','ch':'Switzerland','be':'Belgium','pk':'Pakistan','br':'Brazil','tr':'Turkey','cn':'China','ru':'Russia','ua':'Ukraine','ir':'Iran','jp':'Japan','ng':'Nigeria','kr':'South Korea','kp':'North Korea','tw':'Taiwan','sy':'Syria','lb':'Lebanon','ps':'Palestine','il':'Israel','ve':'Venezuela','af':'Afghanistan','eg':'Egypt','sa':'Saudi Arabia','au':'Australia','fr':'France','mx':'Mexico','za':'South Africa','ke':'Kenya','et':'Ethiopia','co':'Colombia','ar':'Argentina','cl':'Chile','my':'Malaysia','th':'Thailand','id':'Indonesia','ph':'Philippines','vn':'Vietnam','mm':'Myanmar','bd':'Bangladesh','lk':'Sri Lanka','np':'Nepal','ie':'Ireland','tn':'Tunisia','nz':'New Zealand','cm':'Cameroon'};
+
+/* ═══ ORIGIN MAP — birth country / nationality (ISO codes) ═══ */
+const originMap={
+  "Ian Bremmer":"us",
+  "Dr. Fiona Hill":"gb",
+  "Fareed Zakaria":"in",
+  "Dr. Richard Haass":"us",
+  "Anne-Marie Slaughter":"us",
+  "Prof. Joseph Nye":"us",
+  "Prof. Francis Fukuyama":"us",
+  "Amb. Samantha Power":"ie",
+  "Prof. Kishore Mahbubani":"sg",
+  "Dr. Vali Nasr":"ir",
+  "Dr. Ngozi Okonjo-Iweala":"ng",
+  "Dr. Robert Kagan":"us",
+  "Dr. Jessica Tuchman Mathews":"us",
+  "Robin Wright":"us",
+  "Dr. Brahma Chellaney":"in",
+  "Dr. Nathalie Tocci":"it",
+  "Dr. Comfort Ero":"ng",
+  "Prof. G. John Ikenberry":"us",
+  "Dr. Dalia Dassa Kaye":"us",
+  "Prof. Amitav Acharya":"in",
+  "Dr. Rosa Brooks":"us",
+  "Dr. Shivshankar Menon":"in",
+  "Dr. Karen E. Smith":"gb",
+  "Dr. Moises Naim":"ve",
+  "Dr. Hina Rabbani Khar":"pk",
+  "Dr. Thomas Wright":"gb",
+  "Dr. Rym Ayadi":"tn",
+  "Dr. Michael J. Green":"us",
+  "Dr. Minxin Pei":"cn",
+  "Dr. Alina Polyakova":"ua",
+  "Dr. Shibley Telhami":"il",
+  "Dr. Ngaire Woods":"nz",
+  "Dr. Victor Cha":"us",
+  "Dr. Daniela Schwarzer":"de",
+  "Dr. Sanam Vakil":"ir",
+  "Dr. Matias Spektor":"br",
+  "Dr. Rana Mitter":"gb",
+  "Dr. Landry Signé":"cm",
+  "Dr. Kori Schake":"us",
+  "Dr. Yuen Yuen Ang":"cn",
+  "Dr. Gideon Rachman":"gb",
+  "Dr. Mira Rapp-Hooper":"us",
+  "Dr. Arundhati Ghose":"in",
+  "Dr. Mark Leonard":"gb",
+  "Dr. Funmi Olonisakin":"ng",
+  "Dr. Emile Hokayem":"lb",
+  "Dr. Bonnie Glaser":"us",
+  "Dr. Ibrahim Kalin":"tr",
+  "Dr. Rachel Kleinfeld":"us"
+};
+const experienceLabels={'under-40':'<10 years','40-60':'10–20 years','over-60':'20+ years'};
 const genderLabels={'male':'Male','female':'Female'};
-const nativeLabels={true:'Native to Region',false:'Non-Native'};
+let originFilterQuery='';
+let expertiseFilterQuery='';
+let locationFilterQuery='';
 const languageList=[...new Set(experts.flatMap(e=>e.languages))].sort();
 const countryList=[...new Set(experts.map(e=>e.country))].sort();
+const originList=[...new Set(Object.values(originMap))].sort();
+const originCounts={};
+originList.forEach(code=>{originCounts[code]=experts.filter(e=>(originMap[e.name]||e.country)===code).length});
+const expertiseCountryList=[...new Set(Object.values(flagMap).flat())].filter(c=>c).sort();
+const expertiseCountryCounts={};
+expertiseCountryList.forEach(code=>{expertiseCountryCounts[code]=experts.filter(e=>(flagMap[e.name]||[]).includes(code)).length});
 
 function countBy(arr,key){const c={};arr.forEach(e=>{const v=e[key];c[v]=(c[v]||0)+1});return c}
 function countLang(arr,lang){return arr.filter(e=>e.languages.includes(lang)).length}
-function countNative(arr,val){return arr.filter(e=>e.native===val).length}
 
 const specialtyCounts=countBy(experts,'specialty');
 const regionCounts=countBy(experts,'region');
@@ -494,9 +550,7 @@ const ageCounts=countBy(experts,'age');
 const genderCounts=countBy(experts,'gender');
 
 /* ═══ STATE ═══ */
-let filters={specialty:[],region:[],country:[],language:[],age:[],gender:[],native:[]};
-let countrySearchQuery='';
-
+let filters={expertise:[],region:[],language:[],gender:[],experience:[],location:[],origin:[]};
 /* ═══ ACCORDION — Single open behavior ═══ */
 function toggleAccordion(btn){
   const body=btn.nextElementSibling;
@@ -514,12 +568,6 @@ function toggleAccordion(btn){
   if(expanded){body.classList.add('collapsed')}else{body.classList.remove('collapsed')}
 }
 
-/* ═══ COUNTRY SEARCH ═══ */
-function filterCountryList(q){
-  countrySearchQuery=q.toLowerCase();
-  buildCountryFilters();
-}
-
 /* ═══ BUILD FILTERS ═══ */
 function buildFilterBtn(type,value,label,count,hasFlag=false){
   const flagHtml=hasFlag?`<img class="flag" src="flag-icons-main/flags/4x3/${value}.svg" alt="${value}">`:'';
@@ -527,34 +575,23 @@ function buildFilterBtn(type,value,label,count,hasFlag=false){
 }
 
 function buildFilters(){
-  // Specialty
-  let h='';
-  Object.entries(specialtyLabels).forEach(([k,v])=>{
-    if(specialtyCounts[k]) h+=buildFilterBtn('specialty',k,v,specialtyCounts[k]);
-  });
-  document.getElementById('specialtyFilters').innerHTML=h;
+  // Country Expertise
+  buildExpertiseFilters();
 
   // Region
-  h='';
+  let h='';
   Object.entries(regionLabels).forEach(([k,v])=>{
     if(regionCounts[k]) h+=buildFilterBtn('region',k,v,regionCounts[k]);
   });
   document.getElementById('regionFilters').innerHTML=h;
 
-  // Language
+  // Languages
   h='';
   languageList.forEach(lang=>{
     const c=countLang(experts,lang);
     h+=buildFilterBtn('language',lang,lang,c);
   });
   document.getElementById('languageFilters').innerHTML=h;
-
-  // Age
-  h='';
-  Object.entries(ageLabels).forEach(([k,v])=>{
-    if(ageCounts[k]) h+=buildFilterBtn('age',k,v,ageCounts[k]);
-  });
-  document.getElementById('ageFilters').innerHTML=h;
 
   // Gender
   h='';
@@ -563,93 +600,104 @@ function buildFilters(){
   });
   document.getElementById('genderFilters').innerHTML=h;
 
-  // Native
+  // Years of Experience
   h='';
-  h+=buildFilterBtn('native','true','Native to Region',countNative(experts,true));
-  h+=buildFilterBtn('native','false','Non-Native',countNative(experts,false));
-  document.getElementById('nativeFilters').innerHTML=h;
-
-  // Country
-  buildCountryFilters();
-}
-
-function buildCountryFilters(){
-  buildCountryTicker();
-}
-
-function buildCountryTicker(){
-  let items='';
-  countryList.forEach(code=>{
-    const label=countryLabels[code]||code.toUpperCase();
-    const isActive=filters.country.includes(code)?'active':'';
-    if(countryCounts[code]) items+=`<span class="ticker-pill ${isActive}" data-code="${code}"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code}">${label}</span>`;
+  Object.entries(experienceLabels).forEach(([k,v])=>{
+    if(ageCounts[k]) h+=buildFilterBtn('experience',k,v,ageCounts[k]);
   });
-  // Duplicate for seamless loop
-  document.getElementById('countryTicker').innerHTML=items+items;
+  document.getElementById('experienceFilters').innerHTML=h;
+
+  // Location
+  buildLocationFilters();
+
+  // Country of Origin
+  buildOriginFilters();
 }
 
-// Ticker click
-document.getElementById('countryTicker').addEventListener('click',e=>{
-  const pill=e.target.closest('.ticker-pill');
-  if(!pill)return;
-  const code=pill.dataset.code;
-  toggleCountryFilter(code);
-});
-
-function toggleCountryFilter(code){
-  const idx=filters.country.indexOf(code);
-  if(idx>-1){
-    filters.country.splice(idx,1);
-  }else{
-    filters.country.push(code);
-  }
-  buildCountryTicker();
-  updateReset();
-  renderCards();
+function buildOriginFilters(){
+  const q=originFilterQuery.toLowerCase();
+  let h='';
+  originList.filter(code=>{
+    const label=countryLabels[code]||code.toUpperCase();
+    return originCounts[code]&&(!q||label.toLowerCase().includes(q)||code.toLowerCase().includes(q));
+  }).forEach(code=>{
+    const label=countryLabels[code]||code.toUpperCase();
+    h+=buildFilterBtn('origin',code,label,originCounts[code],true);
+  });
+  const container=document.getElementById('originFilters');
+  container.innerHTML=h||'<div style="padding:12px;color:var(--gray-400);text-align:center;font-size:13px">No countries found</div>';
+  filters.origin.forEach(code=>{
+    const btn=container.querySelector(`.filter-btn[data-value="${code}"]`);
+    if(btn)btn.classList.add('active');
+  });
 }
 
-// Country search dropdown
-const searchInput=document.getElementById('searchInput');
-const dropdown=document.getElementById('countryDropdown');
+function buildExpertiseFilters(){
+  const q=expertiseFilterQuery.toLowerCase();
+  let h='';
+  expertiseCountryList.filter(code=>{
+    const label=countryLabels[code]||code.toUpperCase();
+    return expertiseCountryCounts[code]&&(!q||label.toLowerCase().includes(q)||code.toLowerCase().includes(q));
+  }).forEach(code=>{
+    const label=countryLabels[code]||code.toUpperCase();
+    h+=buildFilterBtn('expertise',code,label,expertiseCountryCounts[code],true);
+  });
+  const container=document.getElementById('expertiseFilters');
+  container.innerHTML=h||'<div style="padding:12px;color:var(--gray-400);text-align:center;font-size:13px">No countries found</div>';
+  filters.expertise.forEach(code=>{
+    const btn=container.querySelector(`.filter-btn[data-value="${code}"]`);
+    if(btn)btn.classList.add('active');
+  });
+}
 
-function showCountryDropdown(query=''){
-  const q=query.toLowerCase();
+function buildLocationFilters(){
+  const q=locationFilterQuery.toLowerCase();
   let h='';
   countryList.filter(code=>{
     const label=countryLabels[code]||code.toUpperCase();
-    return countryCounts[code]&&(!q||label.toLowerCase().includes(q));
+    return countryCounts[code]&&(!q||label.toLowerCase().includes(q)||code.toLowerCase().includes(q));
   }).forEach(code=>{
     const label=countryLabels[code]||code.toUpperCase();
-    const isActive=filters.country.includes(code)?'active':'';
-    h+=`<div class="country-dropdown-item ${isActive}" data-code="${code}"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code}"><span>${label}</span></div>`;
+    h+=buildFilterBtn('location',code,label,countryCounts[code],true);
   });
-  dropdown.innerHTML=h||'<div style="padding:16px;color:var(--gray-400);text-align:center">No countries found</div>';
-  dropdown.classList.add('visible');
+  const container=document.getElementById('locationFilters');
+  container.innerHTML=h||'<div style="padding:12px;color:var(--gray-400);text-align:center;font-size:13px">No countries found</div>';
+  filters.location.forEach(code=>{
+    const btn=container.querySelector(`.filter-btn[data-value="${code}"]`);
+    if(btn)btn.classList.add('active');
+  });
 }
 
-searchInput.addEventListener('focus',()=>showCountryDropdown(searchInput.value));
-searchInput.addEventListener('input',e=>showCountryDropdown(e.target.value));
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.spotlight'))dropdown.classList.remove('visible');
+// Sidebar country searches
+document.getElementById('originSearch').addEventListener('input',e=>{
+  originFilterQuery=e.target.value;
+  buildOriginFilters();
+});
+document.getElementById('expertiseSearch').addEventListener('input',e=>{
+  expertiseFilterQuery=e.target.value;
+  buildExpertiseFilters();
+});
+document.getElementById('locationSearch').addEventListener('input',e=>{
+  locationFilterQuery=e.target.value;
+  buildLocationFilters();
 });
 
-dropdown.addEventListener('click',e=>{
-  const item=e.target.closest('.country-dropdown-item');
-  if(!item)return;
-  toggleCountryFilter(item.dataset.code);
-  showCountryDropdown(searchInput.value);
+// Hero search — filters by expert name/org/bio
+const searchInput=document.getElementById('searchInput');
+let searchQuery='';
+searchInput.addEventListener('input',e=>{
+  searchQuery=e.target.value.toLowerCase();
+  renderCards();
 });
 
 buildFilters();
 
 /* ═══ FILTER CLICK ═══ */
 document.getElementById('sidebar').addEventListener('click',e=>{
-  const btn=e.target.closest('.filter-btn')||e.target.closest('.country-pill');
+  const btn=e.target.closest('.filter-btn');
   if(!btn)return;
   const type=btn.dataset.type;
   let val=btn.dataset.value;
-  // Handle boolean for native
-  if(type==='native')val=val==='true';
 
   // Multi-select toggle
   const idx=filters[type].indexOf(val);
@@ -666,13 +714,21 @@ document.getElementById('sidebar').addEventListener('click',e=>{
 
 function resetFilters(){
   filters={specialty:[],region:[],country:[],language:[],age:[],gender:[],native:[]};
-  document.querySelectorAll('.filter-btn,.hero-country-pill').forEach(b=>b.classList.remove('active'));
-  buildCountryFilters();
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('originSearch').value='';
+  document.getElementById('expertiseSearch').value='';
+  document.getElementById('locationSearch').value='';
+  originFilterQuery='';
+  expertiseFilterQuery='';
+  locationFilterQuery='';
+  buildExpertiseFilters();
+  buildLocationFilters();
+  buildOriginFilters();
   updateReset();
   renderCards();
 }
 function updateReset(){
-  const any=filters.specialty.length||filters.region.length||filters.country.length||filters.language.length||filters.age.length||filters.gender.length||filters.native.length;
+  const any=filters.expertise.length||filters.region.length||filters.language.length||filters.gender.length||filters.experience.length||filters.location.length||filters.origin.length;
   document.getElementById('resetBtn').classList.toggle('visible',!!any);
   renderActiveFilters();
 }
@@ -681,13 +737,13 @@ function renderActiveFilters(){
   const container=document.getElementById('activeFilters');
   const chips=[];
 
-  filters.specialty.forEach(v=>chips.push({type:'specialty',value:v,label:specialtyLabels[v]||v}));
+  filters.expertise.forEach(v=>chips.push({type:'expertise',value:v,label:countryLabels[v]||v.toUpperCase()}));
   filters.region.forEach(v=>chips.push({type:'region',value:v,label:regionLabels[v]||v}));
-  filters.country.forEach(v=>chips.push({type:'country',value:v,label:countryLabels[v]||v.toUpperCase()}));
   filters.language.forEach(v=>chips.push({type:'language',value:v,label:v}));
-  filters.age.forEach(v=>chips.push({type:'age',value:v,label:ageLabels[v]||v}));
   filters.gender.forEach(v=>chips.push({type:'gender',value:v,label:genderLabels[v]||v}));
-  filters.native.forEach(v=>chips.push({type:'native',value:String(v),label:v?'Native':'Non-Native'}));
+  filters.experience.forEach(v=>chips.push({type:'experience',value:v,label:experienceLabels[v]||v}));
+  filters.location.forEach(v=>chips.push({type:'location',value:v,label:countryLabels[v]||v.toUpperCase()}));
+  filters.origin.forEach(v=>chips.push({type:'origin',value:v,label:countryLabels[v]||v.toUpperCase()}));
 
   container.innerHTML=chips.map(c=>`<span class="active-filter" data-type="${c.type}" data-value="${c.value}">${c.label}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>`).join('');
 
@@ -695,7 +751,6 @@ function renderActiveFilters(){
     chip.addEventListener('click',()=>{
       const type=chip.dataset.type;
       let val=chip.dataset.value;
-      if(type==='native')val=val==='true';
       const idx=filters[type].indexOf(val);
       if(idx>-1)filters[type].splice(idx,1);
       // Also remove active class from sidebar button
@@ -707,16 +762,7 @@ function renderActiveFilters(){
   });
 }
 
-/* ═══ SEARCH — rotating placeholder ═══ */
-const placeholders=["Search United States...","Search United Kingdom...","Search Germany...","Search India...","Search Singapore...","Search Switzerland..."];
-let phIdx=0;
-function rotatePlaceholder(){
-  if(!searchInput.value){
-    phIdx=(phIdx+1)%placeholders.length;
-    searchInput.setAttribute('placeholder',placeholders[phIdx]);
-  }
-}
-setInterval(rotatePlaceholder,3000);
+/* ═══ SEARCH ═══ */
 
 /* ═══ RENDER ═══ */
 function renderCards(){
@@ -724,13 +770,17 @@ function renderCards(){
   const countEl=document.getElementById('resultCount');
 
   const filtered=experts.filter(e=>{
-    if(filters.specialty.length && !filters.specialty.includes(e.specialty)) return false;
+    if(searchQuery){
+      const hay=(e.name+' '+e.org+' '+(e.bio||'')+' '+(e.tags||[]).join(' ')).toLowerCase();
+      if(!hay.includes(searchQuery)) return false;
+    }
+    if(filters.expertise.length && !filters.expertise.some(c=>(flagMap[e.name]||[]).includes(c))) return false;
     if(filters.region.length && !filters.region.includes(e.region)) return false;
-    if(filters.country.length && !filters.country.includes(e.country)) return false;
     if(filters.language.length && !filters.language.some(l=>e.languages.includes(l))) return false;
-    if(filters.age.length && !filters.age.includes(e.age)) return false;
     if(filters.gender.length && !filters.gender.includes(e.gender)) return false;
-    if(filters.native.length && !filters.native.includes(e.native)) return false;
+    if(filters.experience.length && !filters.experience.includes(e.age)) return false;
+    if(filters.location.length && !filters.location.includes(e.country)) return false;
+    if(filters.origin.length && !filters.origin.includes(originMap[e.name]||e.country)) return false;
     return true;
   });
 
@@ -747,10 +797,12 @@ function renderCards(){
     if(e.twitter)socials.push(`<a href="https://x.com/${e.twitter}" target="_blank" rel="noopener" title="X" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>`);
     if(e.linkedin)socials.push(`<a href="https://linkedin.com/in/${e.linkedin}" target="_blank" rel="noopener" title="LinkedIn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>`);
     const ws=websiteMap[e.name];
-    if(ws)socials.push(`<a href="${ws}" target="_blank" rel="noopener" title="Publications" onclick="event.stopPropagation()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></a>`);
+    if(ws)socials.push(`<a href="${ws}" target="_blank" rel="noopener" title="Publications" onclick="event.stopPropagation()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></a>`);
     const flags=flagMap[e.name]||[];
-    const flagsHtml=flags.length?`<div class="card-flags">${flags.map(code=>`<span class="card-flag-chip"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code.toUpperCase()}">${countryLabels[code]||code.toUpperCase()}</span>`).join('')}</div>`:'';
-    return`<div class="card" data-index="${idx}" style="animation:fadeUp 250ms ${i*15}ms both">${flagsHtml}<img class="card-avatar" src="${avatarSVG(e.name,180)}" alt="${e.name}"/><div class="card-body"><div class="card-name">${e.name}</div><div class="card-bio">${e.bio}</div>${socials.length?`<div class="card-socials">${socials.join('')}</div>`:''}</div></div>`;
+    const flagsBarHtml=flags.length
+      ?`<div class="card-flags-bar">${flags.map(code=>`<div class="flag-band"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${countryLabels[code]||code.toUpperCase()}">${countryLabels[code]||code.toUpperCase()}</div>`).join('')}</div>`
+      :'';
+    return`<div class="card" data-index="${idx}" style="animation:fadeUp 250ms ${i*15}ms both">${flagsBarHtml}<div class="card-inner"><img class="card-avatar" src="${avatarSVG(e.name,180)}" alt="${e.name}"/><div class="card-body"><div class="card-name">${e.name}</div><div class="card-bio">${e.bio}</div>${socials.length?`<div class="card-socials">${socials.join('')}</div>`:''}</div></div></div>`;
   }).join('');
 
   grid.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>openModal(+c.dataset.index)));
@@ -818,7 +870,9 @@ function openModal(idx){
 
   // Flags in header
   const flags=flagMap[e.name]||[];
-  document.getElementById('modalFlags').innerHTML=flags.map(code=>`<span class="modal-flag-chip"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${code.toUpperCase()}">${countryLabels[code]||code.toUpperCase()}</span>`).join('');
+  document.getElementById('modalFlags').innerHTML=flags.length
+    ?flags.map(code=>`<div class="flag-band"><img src="flag-icons-main/flags/4x3/${code}.svg" alt="${countryLabels[code]||code.toUpperCase()}">${countryLabels[code]||code.toUpperCase()}</div>`).join('')
+    :'<div class="modal-flags-bar-empty"></div>';
 
   document.getElementById('modalAvatar').src=avatarSVG(e.name,200);
   document.getElementById('modalName').textContent=e.name;
@@ -837,7 +891,6 @@ function openModal(idx){
   document.getElementById('modalAffiliations').innerHTML=affHtml;
 
   document.getElementById('modalBio').textContent=e.fullBio;
-  document.getElementById('modalTags').innerHTML=e.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('');
 
   // Country label
   const loc=locationMap[e.name]||'';
@@ -847,13 +900,18 @@ function openModal(idx){
   const langHtml=e.languages.map(lang=>`<div class="modal-demo-item"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="demo-value">${lang}</span></div>`).join('');
   document.getElementById('modalDemographics').innerHTML=langHtml;
 
+  // Country of Origin
+  const originCode=originMap[e.name]||e.country;
+  const originLabel=countryLabels[originCode]||originCode.toUpperCase();
+  document.getElementById('modalOrigin').innerHTML=`<div class="modal-demo-item" style="display:inline-flex;width:auto"><img src="flag-icons-main/flags/4x3/${originCode}.svg" alt="${originCode}" style="width:20px;height:14px;border-radius:2px;object-fit:cover"><span class="demo-value">${originLabel}</span></div>`;
+
   // Footer icons
   const ws=websiteMap[e.name]||'';
   const ic=[];
 
-  // Info icons (location, languages)
-  if(loc) ic.push(`<span class="modal-footer-icon" data-tooltip="${loc}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>`);
-  if(ws) ic.push(`<a class="modal-footer-icon" href="${ws}" target="_blank" rel="noopener" data-tooltip="Website"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>`);
+  // Contact icons (phone, email)
+  ic.push(`<span class="modal-footer-icon" data-tooltip="Phone"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>`);
+  ic.push(`<span class="modal-footer-icon" data-tooltip="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>`);
 
   ic.push(`<div class="modal-footer-divider"></div>`);
 
